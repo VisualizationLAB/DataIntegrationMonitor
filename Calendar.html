@@ -1,0 +1,2422 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+body {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+#DivlineChart1.lineChart.text {
+  color: red;
+  shape-rendering: crispEdges;
+}
+
+/*line graph*/
+
+.axis path,
+.axis line {
+  fill: none;
+  //stroke: #000;
+  stroke: rgba(51, 102, 153,.5);
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  //fill: orange;
+  //fill: rgba(179,179,179,0.5);
+  //fill: rgba(51, 102, 153,.5)
+  //fill: aliceblue;
+  fill: rgba(0,0,255,0.9)
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+/*line graph END */
+
+.day {
+  //fill: #fff;
+  fill:rgba(179,179,179,0.2);
+  //stroke: #ccc;
+  outline-style:none;
+  stroke: #fff;
+  stroke-width: 1px;
+  outline-width:1px;	
+  outline-style:none;
+	outline-color:#fff;
+}
+
+.day.active {
+  outline-width:1px;	
+  outline-style:solid;
+  outline-color:black;
+}
+
+.month {
+  fill: none;
+  //stroke: #000;
+  stroke: #fff;
+  stroke-width: 4px;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font: 10px sans-serif;
+}
+.H1 {
+   font-size: 15px;
+   -webkit-font-smoothing: subpixel-antialiased;
+   padding: 10px;
+  // color: rgba(102, 102, 102,1); 
+  color: rgba(51, 102, 153,.5);
+   TEXT-ALIGN: CENTER;
+    font-weight:bold;
+}
+#summ_row1 {
+  //color: rgba(153, 153, 153,.7);
+  //color: rgba(51, 102, 153,1);
+  color:rgba(179,179,179,1);
+  stroke: red;
+  font-size:10px;
+  -webkit-font-smoothing: subpixel-antialiased;
+  //font-weight:bold;
+}
+
+.Summ1{
+  //color: rgba(153, 153, 153,.7);
+  //color: rgba(51, 102, 153,1);
+  color:rgba(179,179,179,1);
+  stroke: red;
+  font-size:15px;
+  //font-weight:bold;
+}
+.label1.active {
+  font-size:15px;
+  -webkit-font-smoothing: subpixel-antialiased;
+ //color:rgba(0,104,55,.3); 
+ color: rgba(51, 102, 153,1);
+}
+
+.sub_title{
+  //color: rgba(153, 153, 153,.7);
+  //color: rgba(51, 102, 153,1);
+  color: blue;
+  stroke: red;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size:14px;
+  font-weight:bold;
+}
+.sub_titleL{
+  //color: rgba(153, 153, 153,.7);
+  color: rgba(179,179,179,0.7);
+  stroke: red;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size:14px;
+  font-weight:bold;
+}
+#summ_row2 {
+  //color: rgba(51, 102, 153,.7);
+ // color: rgba(51, 102, 153,1);
+ //color:rgba(179,179,179,1);
+ color:white;
+  stroke: red;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size:40px;
+}
+.label2 {
+	color:rgba(179,179,179,1);
+	font-size:25px;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+.summ_row4 {
+  //color: rgba(51, 102, 153,.7);
+  color: rgba(51, 102, 153,1);
+  stroke: red;
+  font-size:20px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+#summ_Line {
+	//cellpadding: 10px;
+	font-size:20px;
+}
+table.control_2:hover {
+  fill: red;
+}
+
+.control_1_2 { 
+cell-padding: 10;
+}
+
+#currDate{
+  //color: rgba(51, 102, 153,.7);
+  color: rgba(51, 102, 153,1);
+  font-size:40px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.C4{
+   //height: 250px;
+   //border: 2px solid #F00;
+   border: none;
+   //width: 850px;
+    //padding: 3px;
+    overflow: auto;
+
+    /* POSITION */
+    position:fixed;
+}
+
+.rect.text {
+font-size: 4px;
+}
+
+.q11-11{fill:rgba(0,104,55,1)}
+.qE11-11{fill:rgba(0,104,55,1)}
+
+.q11-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE11-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+
+.q10-11{fill:rgba(0,104,55,1)}
+.q9-11{fill:rgba(0,104,55,.9)}
+.q8-11{fill:rgba(0,104,55,.8)}
+.q7-11{fill:rgba(0,104,55,.7)}
+.q6-11{fill:rgba(0,104,55,.6)}
+.q5-11{fill:rgba(0,104,55,.5)}
+
+.q4-11{fill:rgba(0,104,55,.4)}
+.q3-11{fill:rgba(0,104,55,.3)}
+.q2-11{fill:rgba(0,104,55,.2)}
+.q1-11{fill:rgba(0,104,55,.1)}
+.q0-11{fill:rgba(0,104,55,.075)}
+.Nq0-11{fill:rgba(255,255,0,.2)}
+
+
+.qE10-11{fill:rgba(165,0,38,1)}
+.qE9-11{fill:rgba(165,0,38,.9)}
+.qE8-11{fill:rgba(165,0,38,.8)}
+.qE7-11{fill:rgba(165,0,38,.7)}
+.qE6-11{fill:rgba(165,0,38,.6)}
+.qE5-11{fill:rgba(165,0,38,.5)}
+
+.qE4-11{fill:rgba(165,0,38,.4)}
+.qE3-11{fill:rgba(165,0,38,.3)}
+.qE2-11{fill:rgba(165,0,38,.2)}
+.qE1-11{fill:rgba(165,0,38,.1)}
+.qE0-11{fill:rgba(165,0,38,.075)}
+.NqE0-11{fill:rgba(0,104,55,.3)}
+
+.qE10-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE9-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE8-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE7-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE6-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE5-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE4-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE3-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE2-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE1-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.NqE0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+
+.q10-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q9-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q8-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q7-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q6-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q5-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q4-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q3-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q2-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q1-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.Nq0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+
+</style>
+<body>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+<script src="http://d3js.org/queue.v1.min.js"></script>
+<script src="http://labratrevenge.com/d3-tip/javascripts/d3.tip.min.js"></script>
+<!--link rel="stylesheet" href="http://code.jquery.com/ui/1.9.0/themes/base/jquery-ui.css" /-->
+<!--script src="http://code.jquery.com/jquery-1.8.2.js"></script-->
+<!--script src="http://code.jquery.com/ui/1.9.0/jquery-ui.js"></script-->
+<!--link rel="stylesheet" href="style.css" /-->
+<script>
+
+var width = screen.availWidth * 0.8,
+	height = screen.availHeight * .2,
+   cellSize = width * 0.013; // cell size
+
+var widthLine = screen.availWidth * .5 ,
+heightLine = height,
+//widthbar = screen.availWidth * 0.001953;
+widthbar = screen.availWidth * 0.001954;
+
+var heightC4 = cellSize * 14,
+widthC4 = cellSize * 60;
+
+var widthCalendar = cellSize * 58;
+var heightCalendar = cellSize * 10;
+//var verticalCalendarOffset = heightCalendar * .1;
+if (screen.availWidth > 1280) { 
+console.log("here");
+	var verticalCalendarOffset = 20;
+}
+else 
+{
+	console.log("here2");
+	var verticalCalendarOffset = 70;
+}
+console.log(screen.availWidth);
+console.log(screen.availHeight);
+
+var horizontalCalendarOffset = widthCalendar * .1;
+var calendarStart = 2013;
+var calendarEnd = 2014;
+
+var cellpadding = 2;
+var cellpaddingD = 0;
+
+var borderT = 0;
+var borderT2 = 0;
+
+var widthBarChart = cellSize * 10;
+
+var dataOriginal;
+var arrayRange = 12;
+var domainMax = 20000000;
+var domainMin = 0;
+
+
+
+//Controls
+var select_1 = "err";
+var strSelectID = "FAILED RECORDS";
+var select_Class = "";
+var BIGDATA = [];
+var dataBIG = [];
+var DateArr = [];
+var DateArrCumm = [];
+var lineData = [];
+var selectedDate = ""
+var selectedDateLast = ""
+var lastClicked;
+var lastSelectedLabel;
+
+var allDays = [];
+//var lastClicked;
+
+var SummaryData = [];
+var SelectedData = [];
+
+var day = d3.time.format("%w"),
+    week = d3.time.format("%U"),
+    percent = d3.format(".1%"),
+    format = d3.time.format("%Y-%m-%d");
+	//format2 = d3.time.format("%a-%b-%e-%d");
+
+
+
+var mainTable = d3.select("body")
+		.attr("onload", "loadData()")
+		.append("table")
+		.attr("class" , "main")
+		.attr("id" , "main")
+		.attr("border", borderT)
+		.attr("cellpadding", cellpadding)
+		.attr("width", "100%")
+		.attr("height", "100%");
+		
+mainTable.append("tr")
+	.attr("class" , "H1")
+	.append("td")
+	.attr("align", "center")
+	.attr("colspan", 3)
+	.text( function(d) {return "JIVA DATA LOAD REPORT ANALYTICS" });
+
+mainTable.append("tr")
+	.attr("class", "details")
+	.append("td")
+	.attr("id", "currDate")
+	.attr("align", "center")
+	.attr("valign", "top")
+	.text( function(d) {
+		//var format2 = d3.time.format("%a");
+		//var newStrdate = format2.parse(Date());
+		//var newStrdate = Date().substring(0,15);
+		var d2 = new Date();
+		newStrdate = buildDataview (d2,"");
+		//console.log("newStrdate")
+		//console.log(Date().substring(0,15))
+		//console.log(newStrdate)
+		
+		selectedDate = newStrdate;
+		newStrdateX = buildDisplayDate(selectedDate);
+		return newStrdateX;
+		});
+	
+mainTable.append("tr")
+	.attr("class", "control_1");
+	
+mainTable.append("tr")
+	.append("td")
+	.attr("align", "center")
+	.attr("valign", "top")
+	//.text("THIS IS ME")
+	//.append("div")
+	//.attr("id", "DivlineChart1"); // uncomment later
+	
+mainTable.append("tr")
+	.append("td")
+	.attr("align", "center")
+	.append("table")
+	.attr("border", borderT)
+	//.attr("width", "100%")
+	.append("tr")
+	.attr("class", "detailsR");
+	//.append("td");
+	//.text( function(d) {return "JIVA DATA LOAD REPORT ANALYTICS" });
+
+d3.select(".detailsR").append("td")
+	.attr("class","sub_titleL")
+	.attr("id","sub_titleL")
+	.attr("align", "right")
+	.attr("valign", "bottom")
+	.text("CALENDAR HEAT MAP FOR");
+	
+d3.select(".detailsR").append("td")
+	.attr("class","sub_title")
+	.attr("id","sub_title")
+	.attr("align", "left")
+	.attr("valign", "bottom")
+	.text(strSelectID);
+	
+mainTable.append("tr")
+	.append("td")
+	.attr("class", "legendCR")
+	.attr("valign", "bottom");
+
+/*mainTable.append("tr")
+	.attr("class", "details")
+	.append("td");
+	//.text( function(d) {return "JIVA DATA LOAD REPORT ANALYTICS" });*/
+
+mainTable.append("tr")
+	.attr("class", "details")
+	.append("td")
+	.attr("align", "center")
+	.append("table")
+	.attr("border", borderT)
+	.attr("class","detailsT")
+	.attr("width", "100%");
+//// _________drawing the DETAILS SECTION__________________________//
+
+/*d3.select(".detailsT")
+	.append("tr")
+	.attr("class" , "radioOptions")
+	.append("td")
+	.text("detail")
+	.append("input")
+	.attr("type" , "radio")
+	.attr("name" , "detail")
+	.attr("value" , "detail1")
+	;
+	
+d3.select(".radioOptions")
+	.append("td")
+	.text("chart")
+	.append("input")
+	.attr("type" , "radio")
+	.attr("name" , "chart")
+	.attr("value" , "chart1");
+
+d3.select(".radioOptions")
+	.append("td")
+	.text("line")
+	.append("input")
+	.attr("type" , "radio")
+	.attr("name" , "trend")
+	.attr("value" , "chart2");*/
+	
+d3.select(".detailsT")
+	.append("tr")
+	.attr("class", "detailsRow");
+	
+d3.select(".detailsRow")	
+	.append("td")
+	.attr("valign", "top")
+	.attr("class" , "theatre");
+	
+d3.select(".theatre")
+  .append("div")
+  .attr("class" ,"stage")
+  .append("table")
+  .attr("class" ,"stageT")
+  .attr("border" , borderT)
+  .attr("cellpadding" , cellpaddingD);
+  
+ d3.select(".stageT")
+	.append("tr")
+  .attr("class" , "dataFile_err");
+  
+d3.select(".dataFile_err")
+  .append("td")
+  .attr("width" , (widthBarChart * .5))
+  .attr("class", "fileList")
+  .attr("valign", "top")
+  .attr("align", "right")
+  .append("div")
+.attr("class" , "fileListDiv");;
+
+ d3.select(".dataFile_err")
+	.append("td")
+	.attr("width" , (widthBarChart))
+    .attr("class", "fileData")
+	.attr("valign", "top")
+	.attr("align", "left")
+	.append("div")
+	.attr("class" , "fileDataDiv");
+	
+ d3.select(".dataFile_err")
+	.append("td")
+	.attr("align", "right")
+	.attr("valign", "top")
+	.attr("width" ,widthLine)
+	.append("div")
+	.attr("id", "DivlineChart1");
+	
+d3.select(".dataFile_err")
+	.append("td")
+	.attr("width" , (widthBarChart))
+    .attr("class", "errData")
+	.attr("valign", "top")
+	.attr("align", "right")
+	.append("div")
+	.attr("class" , "errDataDiv");;
+	
+		
+//// _________drawing the DETAILS SECTION__________________________//
+mainTable.append("tr")
+	.attr("class", "control_2");
+
+//--Summary Section row 1 --//
+	
+d3.select(".control_1").append("td")
+	.attr("width", "100%")
+	.attr("align", "center")
+	.append("table")
+	.attr("class", "summary")
+	.attr("width", "100%")
+	.attr("border", 0)
+	.attr("cellpadding", cellpadding)
+	.append("tr")
+	.attr("class","summ_row1")
+	.attr("id","summ_row1")
+	.attr("align","center");
+	/*.append("td")
+	.attr("align", "left")
+	.text("DATE")*/
+	
+///--mouseover /out functions ----//
+function labelClick(obj, objid) {
+
+try {d3.select(lastSelectedLabel).style("font-size", "11px");} catch(err){}
+lastSelectedLabel = obj;
+var dobjid = "d"+objid;
+//console.log(dobjid);
+var container = document.getElementById(dobjid),
+innerdiv = container.getElementsByClassName("label2");
+innerdiv.style("font-size", "40px");
+d3.select(obj).style("font-size", "20px");
+
+}
+
+function mouseOver(Ind) {
+			select_1 = Ind;
+			var newSelecteddate = selectedDate;
+			//console.log("selectedDate -> " + selectedDate + "| newSelecteddate ->" + newSelecteddate);
+			//console.log("document.getElementById(select_1).value");
+			//console.log(document.getElementById(select_1).textContent);
+			//document.getElementById(select_1).style("font-size", "10px")
+			
+			var textVal = document.getElementById(select_1).textContent;
+			strSelectID  = textVal;
+			d3.select("#sub_title").text(textVal);
+			
+			//var d = new Date();
+			//selectedDate = buildDataview (d, "");
+			//buildSelectData(selectedDate, "");
+			
+			////console.log("selectedDateLastHERE:" + selectedDateLast);
+			
+			document.getElementById(selectedDateLast).focus();
+			
+			d3.selectAll("svg").remove();
+			d3.selectAll(".svgContainer").remove();
+			//console.log(select_1)
+			
+			
+			drawCalender(select_1, "1");
+			
+			
+			
+			//console.log("lastClicked:"+lastClicked)
+			//console.log(lastClicked)
+			//console.log(typeof(lastClicked))
+			//try { d3.select(lastClicked).style("outline-style", "none"); }
+			//catch(err){}
+			
+			//var container = document.getElementById(lastClicked.id),
+			//innerDiv = document.getElementsByClassName(lastClicked.class);
+
+			//innerDiv.click();
+			//container.click();
+			
+			//d3.select(lastClicked).click();
+			//d3.selectAll("rect").classed("active", false)
+			//d3.select(lastClicked).classed("active", true)
+			
+			//d3.select(lastClicked).style("outline-style", "dotted");
+			//d3.select(lastClicked).style("outline-color", "red");
+			
+}
+///--mouseover /out functions END----//
+d3.select(".summ_row1").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	//.attr("id","Sdupd")
+	//.text("TOTAL")
+
+d3.select(".summ_row1").append("td")
+	.attr("align", "right")
+	.attr("class", "label1")
+	.text("DAYS");
+	
+d3.select(".summ_row1").append("td")
+	.attr("align", "right")
+	.attr("class", "label1")
+	.attr("id", "upd")
+	.text("UPDATED RECORDS")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;})
+	//.on("click", function(d) { labelClick (this, this.id); return;})
+
+d3.select(".summ_row1").append("td")
+	.attr("align", "right")
+	.attr("class", "label1")
+	.attr("id", "new")
+	.text("INSERTED RECORDS")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); mouseOver (this.id);return;})
+	//.on("click", function(d) { labelClick (this, this.id); return;})
+	
+d3.select(".summ_row1").append("td")
+	.attr("align", "right")
+	.attr("class", "label1")
+	.attr("id", "tot")
+	.text("TOTAL LOADED RECORDS")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;})
+	//.on("click", function(d) { labelClick (this, this.id); return;})
+	  
+d3.select(".summ_row1").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	.attr("id", "err")
+	.text("FAILED RECORDS")
+	.attr("style", "color:rgba(165,0,38,.4);")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;})
+	//.on("click", function(d) { labelClick (this, this.id); return;})
+	  
+d3.select(".summ_row1").append("td")
+	.attr("align", "left")
+	.attr("id", "durH")
+	.attr("class", "label1")
+	.text("LOAD TIME (Hrs)")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;})
+	//.on("click", function(d) { labelClick (this, this.id); return;})
+d3.select(".summ_row1").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	.attr("id", "fileT")
+	.text("FILE TYPES")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;})
+	//.on("click", function(d) { labelClick (this, this.id); return;})
+
+d3.select(".summ_row1").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	.attr("id", "email")
+	.text("EMAILS")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;})
+	
+d3.select(".summ_row1").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	.attr("style", "color:rgba(165,0,38,.4);")
+	.attr("id", "errT")
+	.text("ERROR TYPES")
+	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
+	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;})
+	//.on("click", function(d) { labelClick (this, this.id); return;})
+
+d3.select(".summ_row1").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	.attr("style", "color:rgba(165,0,38,.4);")
+	.text("ERROR DAYS");
+	
+//--Summary Section row 2 --//
+d3.select(".summary").append("tr")
+	.attr("class","summ_row3_1")
+	.attr("id","summ_row3_1")
+	.attr("align","center");
+	
+d3.select(".summary").append("tr")
+	.attr("class","summ_row2")
+	.attr("id","summ_row2")
+	.attr("align","center");
+	/*.append("td")
+	.attr("align", "left")
+	.text("NA")*/
+	
+d3.select("#summ_row2").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	
+d3.select("#summ_row2").append("td")
+	.attr("align", "left")
+	.attr("class", "label1")
+	
+d3.select("#summ_row2").append("td")
+	.attr("align", "right")
+	.attr("id","dupd")
+	.attr("class", "label2")
+	.attr("style", "color:white;")
+	//.attr("style","font-size:20px;color:rgba(179,179,179,1);")
+	.text("00,000,000");
+	
+d3.select("#summ_row2").append("td")
+	.attr("align", "right")
+	.attr("class", "label2")
+	.attr("id","dnew")
+	.attr("style", "color:white;")
+	//.attr("style","font-size:20px;color:rgba(179,179,179,1);")
+	.text("00,000,000");
+	
+d3.select("#summ_row2").append("td")
+	.attr("align", "right	")
+	.attr("class", "label2")
+	.attr("id","dtot")
+	.attr("style", "color:white;")
+	//.attr("style","font-size:20px;color:rgba(179,179,179,1);")
+	.text("00,000,000");
+d3.select("#summ_row2").append("td")
+	.attr("align", "left")
+	.attr("class", "label2")
+	.attr("id","derr")
+	//.attr("style","color:rgba(179,179,179,1);")
+	.attr("style", "color:white;")
+	.text("00,000,000");
+	//.attr("style","font-size:20px;color:rgba(179,179,179,1); color:rgba(165,0,38,.4)");
+
+d3.select("#summ_row2").append("td")
+	.attr("align", "left")
+	.attr("class", "label2")
+	.attr("id","ddurH")
+	.attr("style", "color:white;")
+	//.attr("style","font-size:20px;color:rgba(179,179,179,1);")
+	.text("00.00");
+
+d3.select("#summ_row2").append("td")
+	.attr("align", "left")
+	.attr("class", "label2")
+	.attr("id","dfile")
+	.attr("style", "color:white;")
+	//.attr("style","font-size:20px;color:rgba(179,179,179,1);")
+	.text("00")
+	
+d3.select("#summ_row2").append("td")
+	.attr("align", "left")
+	.attr("class", "label2")
+	.attr("id","demail")
+	.attr("style", "color:white;")
+	.text("00");
+	
+d3.select("#summ_row2").append("td")
+	.attr("align", "left")
+	.attr("class", "label2")
+	.attr("id","derrM")
+	//.attr("style","font-size:20px;color:rgba(179,179,179,1); color:rgba(165,0,38,.4)")
+	//.attr("style","color:rgba(179,179,179,1);")
+	.attr("style", "color:white;")
+	.text("00")
+	//.style("font-size" ,"20px");
+//--SUMARY - WHITE LINE --//
+/*d3.select(".summary").append("tr")
+	.attr("class","summ_Line")
+	.attr("id","summ_Line")
+	.attr("align","center")
+	.append("td")
+	.attr("align", "left")
+	.text("SUMMARY")*/
+// - appending
+
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "right")
+	.attr("class", "Summ1")
+	.text("total")
+	
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "right")
+	.attr("class", "Summ1")
+	.attr("id","SdDAYS")
+	.text("NA")
+
+	
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "right")
+	.attr("class", "Summ1")
+	.attr("id","Sdupd")
+	.text("NA")
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "right")
+	.attr("class", "Summ1")
+	.attr("id","Sdnew")
+	.text("NA")
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "right")
+	.attr("class", "Summ1")
+	.attr("id","Sdtot")
+	.text("NA")
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "left")
+	.attr("id","Sderr")
+	.attr("class", "Summ1")
+	.attr("style", "color:rgba(165,0,38,.4);")
+	.text("NA")
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "left")
+	.attr("class", "Summ1")
+	.attr("id","SddurH")
+	.text("NA")
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "left")
+	.attr("class", "Summ1")
+	.attr("id","Sdfile")
+	.text("NA")
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "left")
+	.attr("class", "Summ1")
+	.attr("id","Sdemail")
+	.text("NA");
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "left")
+	.attr("class", "Summ1")
+	.attr("style", "color:rgba(165,0,38,.4);")
+	.attr("id","SderrM")
+	.text("NA")
+
+d3.select(".summ_row3_1").append("td")
+	.attr("align", "left")
+	.attr("id","SderrDAYS")
+	.attr("class", "Summ1")
+	.attr("style", "color:rgba(165,0,38,.4);")
+	.text("NA")
+//--Summary Section row 2 --//
+
+	
+//--Summary Section END --//	
+	
+d3.select(".row2")
+	.append("td")
+	.attr("width", 500)
+	.attr("id", "year")
+	.attr("align", "left")
+	.append("div")
+	.attr("id", "slider-range")
+	.attr("style", "display:none;")
+	.on( "click", function(d) { 
+		//console.log(this.value)
+		});
+
+
+	
+// ++++++++ Calendar section
+d3.select(".legendCR")
+	.append("table")
+	.attr("cellpadding", cellpaddingD)
+	.attr("border", borderT2)
+	.append("tr")
+	.attr("class", "C3");
+
+/*d3.select(".C3")
+	.append("td")
+	//.attr("class", "C4")
+	.attr("valign" , "top")
+	.style("color" , "white")
+	.text("I m a little tea pot");
+d3.select(".C3")
+	.append("td")
+	//.attr("class", "C4")
+	.attr("valign" , "top")
+	.style("color" , "white")
+	.text("I m a little tea pot");*/
+	
+d3.select(".C3")	
+	.append("td")
+	.attr("class", "legendC")
+	.attr("align", "center")
+	.attr("valign", "bottom");
+	//.attr("width", "100%");
+	
+	
+	
+d3.select(".C3")
+	.append("td")
+	.attr("align" , "left")
+	.attr("valign" , "bottom")
+	.attr("class", "C4")
+	.attr("width", widthC4)
+	.attr("height", heightC4)
+	//.attr("height", 50)
+	//.attr("valign" , "top")
+	//.text("I m a little tea pot I m a little tea pot I m a little tea pot");
+	
+
+// ++++++++ Calendar section END
+
+/*$(function() {
+    $( "#slider-range" ).slider({
+    range: true,
+    min: 0,
+	max: 1000,
+	values: [2012,2013],
+    slide: function( event, ui ) {
+    var maxv = d3.min([ui.values[1], 10]);
+    var minv = d3.max([ui.values[0], 0]);
+    }});
+    });
+*/
+function loadData () {
+
+ queue()
+	.defer(d3.csv, "Calendar.csv")
+	.await(ready);
+}
+var arrDates = [];
+var arrFail = [];
+var arrVol = [];
+var arrNew = [];
+var arrUpd = [];
+var arrDurHrs = [];
+var arrFileLayout = [];
+var arrFileT = [];
+var arrErrMsgs = [];
+var arrErrT = [];
+
+var arrUniqueEmails = [];
+var arrEmails = [];
+
+var objData = [];
+
+function ready(error, dataCsv) {
+console.log("dataCsv");
+console.log(dataCsv);	
+dataOriginal = dataCsv;
+
+dataOriginal.forEach(function(d){ 
+		//console.log(d.Date);
+		arrDates.push(d.Date);
+		arrFail.push(parseInt(d.Tot_Failures));
+		arrVol.push(parseInt(d.Tot_Records));
+		arrNew.push(parseInt(d.Tot_Inserts));
+		arrUpd.push(parseInt(d.Tot_Updates));
+		arrDurHrs.push(d3.round(Number(d.Tot_Duration_Hrs),2));
+		arrFileLayout.push(d.File_Layouts);
+		arrErrMsgs.push(d.Error_Msgs);
+		arrUpd.push(parseInt(d.Tot_Updates));
+		arrEmails.push(parseInt(d.tot_emails));
+		arrUniqueEmails.push(parseInt(d.tot_unique_emails));
+		
+		//console.log(d.File_Layouts);
+		if (d.File_Layouts != "" && typeof(d.File_Layouts) != "undefined" ) {
+			var strFilString = d.File_Layouts;
+			var strFile = "";
+			strCurrFile = strFilString.split("|");
+			strCurrFile.forEach (function(d) {
+				if (strFile.indexOf(d) == -1 && (d !="") ) strFile = strFile + d + "|";});
+			var newArr = strFile.split("|");
+			var FileCnt = parseInt(newArr.length-1);
+		}
+		else var FileCnt = 0;
+		
+		arrFileT.push(parseInt(FileCnt));
+	
+		if (d.Error_Msgs != "" && typeof(d.Error_Msgs) != "undefined" ) {
+			var strCurrErr = d.Error_Msgs.split("|");
+			var strFileErr = "";
+			for (var i=0;i<strCurrErr.length;i++)
+				{
+				if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
+					{
+						strFileErr = strFileErr + strCurrErr[i] + "|";
+					}
+				}
+			
+			var newArr = strFileErr.split("|");
+			var ErrCnt = parseInt(newArr.length-1);
+		}
+		else var ErrCnt = 0;
+		
+		arrErrT.push(parseInt(ErrCnt));
+		
+		var datarow = {
+						"Date" : d.Date,
+						"Tot_Records" :  parseInt(d.Tot_Records),
+						"Tot_Inserts" : parseInt(d.Tot_Inserts),
+						"Tot_Updates" : parseInt(d.Tot_Updates),
+						"Tot_Failures" : parseInt(d.Tot_Failures),
+						"Tot_Duration_Secs" : d3.round(Number(d.Tot_Duration_Secs),2),
+						"Tot_Duration_Hrs" : d3.round(Number(d.Tot_Duration_Hrs),2),
+						"File_Layouts" : d.File_Layouts,
+						"Error_Msgs" : d.Error_Msgs,
+						"File_Cnt" : parseInt(FileCnt),
+						"Err_Cnt" : parseInt(ErrCnt),
+						"tot_emails" : parseInt(d.tot_emails),
+						"tot_unique_emails" : parseInt(d.tot_unique_emails)
+						};
+		BIGDATA.push(datarow);
+		//console.log("d.Tot_Failures");
+		//console.log(d.Tot_Failures);
+		//console.log(arrFail);
+		})
+console.log("BIGDATA");
+console.log(BIGDATA);
+//console.log(arrFileT);
+//console.log(arrErrT);
+
+
+drawCalender(select_1, "0");
+buildSummaryData ();
+//console.log("onload() : " + selectedDate);
+
+var d = new Date();
+selectedDate = buildDataview (d, "");
+var selectedDateD = buildDisplayDate (selectedDate);
+//console.log(selectedDate)
+selectedDateLast = selectedDate;
+document.getElementById(selectedDate).focus();
+buildSelectData(selectedDate, "", "");
+/*console.log("document.getElementById(selectedDate).class")
+var selectedClass = document.getElementById(selectedDate).className.baseVal;
+if (selectedClass == "day") 
+	{
+	console.log(d3.select(selectedClass));
+	//d3.select(selectedClass).style("stroke:red");
+	}*/
+}
+
+
+	
+//console.log("OUTSIDE")
+//console.log(BIGDATA);
+//console.log(dataOriginal);	
+//console.log(arrFail);
+//console.log(arrVol);	
+
+function getDomainMax(val) {
+switch (val)
+{
+case "tot":
+  domainMax = d3.max(arrVol)
+  break;
+case "err":
+  domainMax = d3.max(arrFail)
+  break;
+case "new":
+  domainMax = d3.max(arrNew)
+  break;
+case "upd":
+  domainMax = d3.max(arrUpd)
+  break;
+case "durH":
+  domainMax = d3.max(arrDurHrs)
+  break;
+case "fileT":
+  domainMax = d3.max(arrFileT)
+  break;
+ case "errT":
+  domainMax = d3.max(arrErrT)
+  break;
+case "email":
+  domainMax = d3.max(arrUniqueEmails)
+  break;
+}
+//return domainMax;
+}
+
+function getData(val,opt1,opt2,opt3,opt4,opt5,opt6,opt7, opt8) {
+switch (val)
+{
+case "tot":
+  vData = opt1
+  break;
+case "err":
+  vData = opt2
+  break;
+case "new":
+  vData = opt3
+  break;
+case "upd":
+  vData = opt4
+  break;
+case "durH":
+  vData = opt5
+  break;
+ case "fileT":
+  vData = opt6
+  break;
+ case "errT":
+  vData = opt7
+  break;
+ case "email":
+  vData = opt8
+  break;
+}
+return vData;
+}
+
+// -- calendar building starts --//
+function drawCalender(ind, caller) {
+
+////console.log("BIGDATA-drawCalender");
+//console.log(BIGDATA);
+d3.selectAll("svgContainer").remove();
+allDays = [];
+var d = new Date();
+//buildDataview (d, "");
+//console.log("drawCalender");
+//console.log(selectedDate);
+dataBIG = d3.nest()
+			.key(function(d) { return d.Date; })
+			.rollup(function(d) { //console.log(select_1); 
+									//console.log("HERERERERERRE");
+									//console.log(d);
+									//console.log(d[0].File_Cnt);
+									var dataVal = getData(select_1,parseInt(d[0].Tot_Records),parseInt(d[0].Tot_Failures),parseInt(d[0].Tot_Inserts),parseInt(d[0].Tot_Updates),Number(d[0].Tot_Duration_Hrs),parseInt(d[0].File_Cnt),parseInt(d[0].Err_Cnt),parseInt(d[0].tot_unique_emails));
+									return dataVal;
+								})
+			.map(BIGDATA);
+//console.log("dataBIG-drawCalender");
+//console.log(dataBIG);			
+
+getDomainMax(select_1,"domainMax");
+
+	//console.log("domainMax");
+	//console.log(domainMax);
+	//console.log(select_1);
+	
+var color = d3.scale.quantize()
+   .domain([domainMin,domainMax])
+    .range(d3.range(arrayRange-1).map(function(d) { 
+							var strVal = "";
+							if (select_1 == "err" || select_1 == "durH" ||  select_1 == "errT" ) 
+							{ 
+								strVal = "qE" + d + "-11";
+							}
+							else 
+							{
+								strVal = "q" + d + "-11";
+							
+							}
+							//console.log(strVal);
+							return strVal; 
+							}
+							
+							));
+
+
+//console.log(color.domain());
+var svg = d3.select(".C4").selectAll("svg")
+	.data(d3.range(calendarStart, calendarEnd))
+  .enter().append("tr")
+  .attr("class" , "svgContainer")
+  .append("td")
+  .append("svg")
+    .attr("width", widthCalendar)
+    .attr("height", heightCalendar)
+    .attr("class", "RdYlGn")
+  .append("g")
+    //.attr("transform", "translate(" + ((width - cellSize * 53) / 2) + "," + (height - cellSize * 7 - 1) + ")");
+	.attr("transform", "translate(" + ((width - cellSize * 60) / 2) + "," + (height - cellSize * 8 - 1) + ")");
+	//.attr("transform", "translate(" + ((width - cellSize * 60) / 2) + "," + (height - 200) + ")"); //reducing gap between calendars
+
+var yYearLabel = cellSize * 3.5 - verticalCalendarOffset;
+var xYearLabel = -6-horizontalCalendarOffset;
+
+svg.append("text")
+    .attr("transform", "translate(" + xYearLabel + "," + yYearLabel + ")rotate(-90)")
+    .style("text-anchor", "middle")
+    .text(function(d) { return d; });
+	
+
+var rect = svg.selectAll(".day")
+    .data(function(d) { 
+	//var dayStr = d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1));
+	//console.log("dayStr");
+	//console.log(dayStr);
+	//var datarow = { day: dayStr , value: 0}
+	//allDays.push(datarow);
+	return d3.time.days(new Date(d, 0, 1), new Date(d + 1, 0, 1)); 
+	
+	})
+	.enter()
+	.append("rect")
+    .attr("class", "day")
+	//.attr("id", function(d) { return d;})
+    .attr("width", cellSize)
+    .attr("height", cellSize)
+	.on("mouseover", function(d) { 
+		selectedDateLast = d;
+		//console.log("this.name");
+		//console.log(d);
+		//console.log(d.name);
+		//console.log(d);
+		d3.selectAll("rect").classed("active", false)
+		d3.select(this).classed("active", true)
+		var ClassNameSelected = this.className.baseVal;
+		if (ClassNameSelected == "day" || ClassNameSelected == "day active") ClassNameSelected = ClassNameSelected.replace(" active", "");
+		//console.log(ClassNameSelected);
+		
+		var objLegend = d3.select(".legend").selectAll(".rect")[0].parentNode;
+		var objLegend_g = objLegend.children;
+		//console.log(objLegend_g); 
+		for(var i =0; i < objLegend_g.length; i++ ) {
+			if(objLegend_g[i].children[0].id == ClassNameSelected) {
+			//console.log(objLegend_g[i].children[0].id)
+			objLegend_g[i].children[0].style.outline = "solid";
+			objLegend_g[i].children[0].style.outlineColor  = "red";
+			objLegend_g[i].children[0].style.outlineWidth = "1px";
+			}
+		}
+		
+		buildSelectData(d, "day", this.name);
+	})
+	//.attr("name", function(d) { var dayStr = d3.time.format("%a, %b %d %Y"); return dayStr(d); })
+    .attr("x", function(d) { return week(d) * cellSize-horizontalCalendarOffset; })
+    .attr("y", function(d) { return (day(d) * cellSize)-verticalCalendarOffset; })
+	.on("mouseout", function(d) {
+		
+		var objLegend = d3.select(".legend").selectAll(".rect")[0].parentNode;
+		var objLegend_g = objLegend.children;
+		//console.log(objLegend_g); 
+		for(var i =0; i < objLegend_g.length; i++ ) {
+			objLegend_g[i].children[0].style.outline = "";
+			objLegend_g[i].children[0].style.outlineColor  = "";
+			objLegend_g[i].children[0].style.outlineWidth = "";
+		}
+	
+	})
+	.on("click", function(){
+		if (caller == "0") try { d3.select(lastClicked).style("outline-style", "none"); } catch(err){}
+		
+		//console.log("lastClicked: BEFORE - " + lastClicked)
+		//console.log(lastClicked)
+		//console.log(caller)
+		if (caller == "0") lastClicked = this;
+		
+		//console.log("lastClicked: NOW - " + lastClicked)
+		//console.log(lastClicked)
+		d3.select(lastClicked).style("outline-style", "dotted"); 
+		d3.select(lastClicked).style("outline-color", "red"); 
+	})
+	.attr("id", function(d) { var strDate = buildDataview(d, ""); 
+	
+		//console.log(strDate);
+		var datarow = {day: strDate}
+		allDays.push(datarow);
+	
+	return strDate;})
+    .datum(format);
+	
+rect.append("title")
+   .text(function(d) { return d; });
+
+svg.selectAll(".month")
+    .data(function(d) { return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+  .enter().append("path")
+    .attr("class", "month")
+    .attr("d", monthPath);
+
+	
+	var month_name = d3.time.format("%B")
+
+svg.selectAll("text.month")
+    .data(function(d) { return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
+  .enter().append("text")
+    .attr("class", "monthTxt")
+    .attr("x", function(d) { return week(d) * cellSize+25-horizontalCalendarOffset; })
+	.attr("y", -4-verticalCalendarOffset)
+	.attr("transform", "translate(0,0)")
+    .attr("style", "text-anchor:left;")
+    .text(month_name);
+	
+var ScaleArr = ["NA", "0" ];
+var LScaleArr = ["NA","0"];
+var DataArr = [];
+
+
+		
+rect.filter(function(d) { return d in dataBIG; })
+	.attr("class", function(d) { 
+							DataArr.push(dataBIG[d]);
+							
+							if (dataBIG[d] == 0) 
+							{
+								//console.log("day N" + color(dataBIG[d]));
+								return "day N" + color(dataBIG[d]);
+							}
+							else 
+							{	
+							//console.log("day " + color(dataBIG[d]));
+							return "day " + color(dataBIG[d]);
+							}
+							
+		})
+	.on("mouseover", function(d) { 
+		selectedDateLast = d;
+		
+		d3.selectAll("rect").classed("active", false)
+		d3.select(this).classed("active", true)
+		
+		if (dataBIG[d] == 0) 
+			{
+				//console.log("day N" + color(dataBIG[d]));
+				var strClass =  "day N" + color(dataBIG[d]);
+			}
+		else 
+			{	
+				//console.log("day " + color(dataBIG[d]));
+			var strClass = "day " + color(dataBIG[d]);
+			}
+			
+		
+		//console.log(objBarChart_g_children); 
+		//console.log(objBarChart_g_children[2]); 	
+		//console.log(d);
+		//console.log(d3.select(".RdYlGn").selectAll(".rect")[0]); 
+	var objBarChart = d3.select(".lineChart").selectAll(".rect")[0].parentNode;
+	var objBarChart_g = objBarChart.children;
+	var objBarChart_g_children = objBarChart_g[0].children;
+
+		for(var i =0; i < objBarChart_g_children.length; i++ ) {
+			if (objBarChart_g_children[i].id == d) {
+				//console.log(objBarChart_g_children[i].id);
+				//console.log(objBarChart_g_children[i]);
+				//console.log(objBarChart_g_children[i].style); 
+				//console.log(objBarChart_g_children[i].style.outline); 
+				//console.log(objBarChart_g_children[i].style.outlineColor);
+				//console.log(objBarChart_g_children[i].style.outlineWidth);
+				objBarChart_g_children[i].style.fill = "red";
+				
+				
+				
+			 }
+			}
+		
+		var ClassNameSelected = this.className.baseVal;
+		//console.log(ClassNameSelected);
+		if (ClassNameSelected == "day" || ClassNameSelected == "day active") ClassNameSelected = ClassNameSelected.replace(" active", "");
+		else {
+			ClassNameSelected = ClassNameSelected.replace("day ", "");
+			ClassNameSelected = ClassNameSelected.replace(" active", ""); }
+		//console.log("ClassNameSelected");
+		//console.log(ClassNameSelected);
+		//console.log(d3.select(".RdYlGn").selectAll(".rect")[0]); 
+		var objLegend = d3.select(".legend").selectAll(".rect")[0].parentNode;
+		var objLegend_g = objLegend.children;
+		//console.log(objLegend_g); 
+		for(var i =0; i < objLegend_g.length; i++ ) {
+			if(objLegend_g[i].children[0].id == ClassNameSelected) {
+			//console.log(objLegend_g[i].children[0].id)
+			objLegend_g[i].children[0].style.outline = "solid";
+			objLegend_g[i].children[0].style.outlineColor  = "red";
+			objLegend_g[i].children[0].style.outlineWidth = "1px";
+			}
+		}
+		
+		
+		buildSelectData (d,strClass, this.name);
+	} )
+	.on("mouseout", function(d) {
+		var objBarChart = d3.select(".lineChart").selectAll(".rect")[0].parentNode;
+		var objBarChart_g = objBarChart.children;
+		var objBarChart_g_children = objBarChart_g[0].children;
+		for(var i =0; i < objBarChart_g_children.length; i++ ) {
+			if (objBarChart_g_children[i].id == d) {
+				objBarChart_g_children[i].style.fill = "rgba(0,0,255,0.9)";
+			 }
+			}
+			
+		//var ClassNameSelected = this.className.baseVal;
+		//ClassNameSelected = ClassNameSelected.replace("day ", "");
+		//ClassNameSelected = ClassNameSelected.replace(" active", "");
+		//console.log(ClassNameSelected);
+		
+		//console.log(d3.select(".RdYlGn").selectAll(".rect")[0]); 
+		var objLegend = d3.select(".legend").selectAll(".rect")[0].parentNode;
+		var objLegend_g = objLegend.children;
+		//console.log(objLegend_g); 
+		for(var i =0; i < objLegend_g.length; i++ ) {
+			//if(objLegend_g[i].children[0].id == ClassNameSelected) {
+			//console.log(objLegend_g[i].children[0].id)
+			objLegend_g[i].children[0].style.outline = "";
+			objLegend_g[i].children[0].style.outlineColor  = "";
+			objLegend_g[i].children[0].style.outlineWidth = "";
+			//}
+		}
+		
+	})
+	.on("click", function(){	
+		if (caller == "0") try { d3.select(lastClicked).style("outline-style", "none"); } catch(err){}
+		
+		//console.log("lastClicked: BEFORE - " + lastClicked)
+		//console.log(lastClicked)
+		
+		if (caller == "0") lastClicked = this;
+		//console.log("lastClicked: NOW - " + lastClicked)
+		//console.log(lastClicked)
+		d3.select(lastClicked).style("outline-style", "dotted"); 
+		d3.select(lastClicked).style("outline-color", "red"); 
+	})
+	.attr("id", function(d) { return d;})
+	.select("title")
+	.text(function(d) { 
+			return d + ": " + addCommas(dataBIG[d]); });
+
+	
+var increment  = (d3.max(DataArr) - d3.min(DataArr))/arrayRange;
+var Lbound = d3.min(DataArr);
+for (var i=1; i<(arrayRange+1); i++)
+{
+	ScaleArr.push(parseInt(Lbound + i* increment));
+	LScaleArr.push(parseInt(Lbound + (i-1)* increment));
+	//console.log(ScaleArr.length);
+}
+ScaleArr[ScaleArr.length-1] = d3.max(DataArr);
+
+buildLegend ();				
+LineChartData();
+
+////++++++++++++++++++++++++++++++++++++++++
+function monthPath(t0) {
+  var t1 = new Date(t0.getFullYear(), t0.getMonth() + 1, 0),
+      d0 = +day(t0), w0 = +week(t0),
+      d1 = +day(t1), w1 = +week(t1);
+	  //console.log("typeof(d0)");
+	  //console.log(typeof(d0 * cellSize));
+	  //console.log(d0 * cellSize-verticalCalendarOffset);
+
+	  var val1 = d0 * cellSize - verticalCalendarOffset;
+	  var val2 = 7 * cellSize - verticalCalendarOffset;
+	  var val3 = (d1 + 1) * cellSize - verticalCalendarOffset;
+	  var val4 = 0 - verticalCalendarOffset;
+	  
+	  var xval1 = (w0 + 1) * cellSize - horizontalCalendarOffset;
+	  var xval2 = w0 * cellSize - horizontalCalendarOffset;
+	  var xval3 = w1 * cellSize  - horizontalCalendarOffset;
+	  var xval4 = (w1 + 1) * cellSize - horizontalCalendarOffset;
+	  var xval5 = (w0 + 1) * cellSize - horizontalCalendarOffset;
+	  
+  return "M" + xval1 + "," + val1
+     + "H" + xval2 + "V" + val2
+      + "H" + xval3 + "V" + val3
+      + "H" + xval4 + "V" + val4
+      + "H" + xval5 + "Z";
+	
+	/*return "M" + (w0 + 1) * cellSize + "," + val1
+      + "H" + w0 * cellSize + "V" + val2
+      + "H" + w1 * cellSize + "V" + val3
+      + "H" + (w1 + 1) * cellSize + "V" + val4
+      + "H" + (w0 + 1) * cellSize + "Z";*/
+}
+
+function buildLegend () {
+
+//console.log(ScaleArr);	
+var legend = d3.select(".legendC")
+.append("svg")
+      .attr("class", "legend")
+	  .attr("width", widthBarChart)
+	  //.attr("height",heightCalendar)
+      .attr("height", (cellSize * arrayRange) + 2 * cellSize )
+	  .selectAll("g")
+	  .data(ScaleArr)
+    .enter().append("g")
+      .attr("transform", function(d, i) { return "translate(120," + parseInt((i * 13) +3) +")"; });
+						
+legend.append("rect")
+      .attr("width", cellSize *.8 )
+      .attr("height", cellSize *.8 )
+	  .attr("class" , function(d, i){ 
+							var strClass = ""
+							//console.log("color(d) : " + color(d) + " | d: " + d + " | i: " + i); 
+							if (i>1) 
+								strClass = color(d)
+							else 
+								if ( i ==1 ) strClass = "N" + color(d)
+								else strClass = "day"
+							return strClass ;})
+	.attr("id" , function(d, i){ 
+							var strClass = ""
+							//console.log("color(d) : " + color(d) + " | d: " + d + " | i: " + i); 
+							if (i>1) 
+								strClass = color(d)
+							else 
+								if ( i ==1 ) strClass = "N" + color(d)
+								else strClass = "day"
+							return strClass ;});
+  legend.append("text")
+      .attr("x", 24-30)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+	  .attr("text-anchor", "end")
+	  .attr("style" , "font-size: 9px;")
+      .text(function(d,i) { 
+		//console.log(d);
+		//LScaleArr[i]
+		var strLbl = ""
+		if (i>0) 
+			{ 
+			//console.log(arrayRange + " | " + i);
+			if (i < (arrayRange+2)) 
+				{ //console.log("if");
+				strLbl =  addCommas(LScaleArr[i]) + " - "+ addCommas(d);
+				}
+			else 
+				{
+					//console.log("else");
+					strLbl =  addCommas(LScaleArr[i]) + " - "+ addCommas(domainMax);
+				}
+			}
+		else 
+			strLbl = "Data not available";
+		return strLbl;
+			}
+		)
+}
+// -- calendar building ends --//
+
+
+}
+
+function buildDataview (strDate, Ind) {
+
+//console.log("buildDataview");
+//console.log(Ind);
+var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+	
+var d = strDate;
+if (d.getDate().toString().length == 1)  {
+	
+	var curr_date = "0"+d.getDate();
+	}
+else var curr_date = d.getDate();
+
+//var getDayStr = d.getDay();
+
+var DCurrMonth = "";
+var DCurrMonthInt = d.getMonth()+1;
+if (Ind == "Display") { 
+	DCurrMonth = monthNames[d.getMonth()];
+}
+else
+{
+	
+	if (DCurrMonthInt.toString().length == 1) 
+	{
+		//console.log("HERER??");
+		//console.log(d.getMonth());
+		//console.log(d);
+		//console.log(strDate);
+		var curr_month = "0"+parseInt(d.getMonth()+1);
+	}	
+	else 
+	{
+		var curr_month = d.getMonth()+1; //Months are zero based
+	}
+}
+
+
+var curr_year = d.getFullYear();
+var strDateX = "";
+selectedDate = curr_year + "-" + curr_month + "-" + curr_date;
+//console.log(selectedDate);
+if (Ind == "Display") { 
+		strDateX  = DCurrMonth + " " + d.getDate() + " " + curr_year;
+	}
+else strDateX =  curr_year + "-" + curr_month + "-" + curr_date;
+//console.log("strDate")
+//console.log(strDateX)
+return strDateX;
+}
+
+function buildDisplayDate (strDate) {
+
+var monthNames = [ "Jan", "Feb", "Mar", "Apr", "May", "Jun",
+    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" ];
+
+var weekNames = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+var dayStr = d3.time.format("%a, %b %d %Y");
+var newD = new Date(strDate);
+
+//console.log("dayStr(strDate)");
+//console.log(dayStr(strDate));
+//console.log("strDate.getDay()");
+//console.log(newD.getDay());
+var currWeekDay = weekNames[newD.getDay()];
+//console.log(currWeekDay);
+var arrDate = strDate.split("-");
+
+if (arrDate[1].substring(0,1) != "0") 
+{	
+	//console.log("typeof(arrDate[1]): 2");
+	//console.log(typeof(arrDate[1]));
+	//console.log(arrDate[1].substring(0,1) );
+	var currmonth = monthNames[Number(arrDate[1])-1];
+}
+else 
+{
+	//console.log("typeof(arrDate[1]) : 1");
+	//console.log(typeof(arrDate[1]));
+	//console.log(arrDate[1].substring(0,1) );
+	var currmonth = monthNames[Number(arrDate[1].substring(1,2))-1];
+}
+strDateX  = currWeekDay + ", " + currmonth + " " + arrDate[2] + " " + arrDate[0];
+
+return strDateX;
+}
+
+function buildSelectData (strDt, StrClass, dtNm) {
+	SelectedData = [];
+	//console.log("StrClass:" + StrClass)
+	//var strDate = "#"+strDt;
+	//console.log("StrClass:" + StrClass + "|strDate:"+strDate)
+	//d3.select(strDate).style("stroke:red;");
+	
+	//console.log("dtNm");
+	//console.log(dtNm);
+	
+	
+	var displayDt = buildDisplayDate(strDt);
+	//if (origDt !="") 
+	d3.select("#currDate").text(displayDt);
+	//else d3.select("#currDate").text(strDt);
+	selectedDate = strDt;
+	try { document.getElementById(strDt).focus();
+	}
+	catch(err)
+	{}
+	//console.log("StrClass");
+	//console.log(StrClass);
+	var strFile = "";
+	var strFileErr = "";
+	
+	var strFileErrCnt = "";
+
+	var errMsgs = [];
+	var errMsgsCnt = []
+	var fileLayout = [];
+	
+	BIGDATA.forEach(function (d) {
+		
+		if (strDt == d.Date) 
+		{
+			if (typeof(d.File_Layouts) == "string") 
+			{ 
+			var strFilString = d.File_Layouts;
+			strCurrFile = strFilString.split("|");
+			strCurrFile.forEach (function(d) {
+				if (strFile.indexOf(d) == -1 && (d !="") ) strFile = strFile + d + "|";
+				});
+			}
+		if (typeof(d.Error_Msgs) == "string") 
+			{ 
+			var strErrString = d.Error_Msgs;
+			strCurrErr = strErrString.split("|");
+			
+			for (var i=0;i<strCurrErr.length;i++)
+				{
+				if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
+					{
+						strFileErr = strFileErr + strCurrErr[i] + "|";
+						strFileErrCnt = strFileErrCnt + strCurrErr[i] + "-" + strCurrErr[i+1] + "|";
+					}
+				}
+			}
+			
+			if (typeof(strFileErr) == "string") {
+				var arrErr = strFileErr.split("|");
+				arrErr.forEach( function(d) {
+				if (d != "") errMsgs.push(d);
+					})
+				}
+				
+			if (typeof(strFileErrCnt) == "string") {
+				var arrErrCnt = strFileErrCnt.split("|");
+				arrErrCnt.forEach( function(d) {
+				if (d != "") errMsgsCnt.push(d);
+					})
+				}
+				
+			if (typeof(strFile) == "string") {
+				var arrFileLayout = strFile.split("|");
+				arrFileLayout.forEach( function(d) {
+				if (d != "") fileLayout.push(d);
+					})
+				}
+			var datarow = {
+						"Date" : d.Date,
+						"Tot_Records" :  parseInt(d.Tot_Records),
+						"Tot_Inserts" : parseInt(d.Tot_Inserts),
+						"Tot_Updates" : parseInt(d.Tot_Updates),
+						"Tot_Failures" : parseInt(d.Tot_Failures),
+						"Tot_Duration_Secs" : Number(d.Tot_Duration_Secs),
+						"Tot_Duration_Hrs" : Number(d.Tot_Duration_Hrs),
+						"File_Layouts" : fileLayout.length,
+						"Error_Msgs" : errMsgs.length,
+						"Files" : fileLayout,
+						"Errors" : errMsgs,
+						"Errors_cnt" : arrErrCnt,
+						"tot_emails" : parseInt(d.tot_emails),
+						"tot_unique_emails" : parseInt(d.tot_unique_emails)
+						
+					}
+					
+			SelectedData.push(datarow);
+			
+			
+		}
+	})
+	//console.log("SelectedData");
+	//console.log(SelectedData);
+	//console.log(typeof(BIGDATA));
+	//console.log(typeof(SelectedData));
+	if (SelectedData.length > 0 ) 
+	{
+		SelectedData.forEach (function (d) {
+				d3.select("#dtot").text(function (x) { return addCommas(d.Tot_Records);});
+				d3.select("#derr").text(function (x) { return addCommas(d.Tot_Failures);});
+				d3.select("#dupd").text(function (x) { return addCommas(d.Tot_Updates);});
+				d3.select("#dnew").text(function (x) { return addCommas(d.Tot_Inserts);});
+				d3.select("#ddurH").text(function (x) { return addCommas(d.Tot_Duration_Hrs);});
+				d3.select("#dfile").text(function (x) { return addCommas(d.File_Layouts);});
+				d3.select("#derrM").text(function (x) { return addCommas(d.Error_Msgs);});
+				d3.select("#demail").text(function (x) { return addCommas(d.tot_unique_emails);});
+				//d3.select("#dtot").style("color" , "rgba(51, 102, 153,1)");
+				if(d.Tot_Failures > 0 || d.Error_Msgs > 0) { 
+					d3.selectAll(".label2").style("color" , "rgba(165,0,38,.7)");
+					//d3.select("#derr").style("color" , "rgba(165,0,38,.7)");
+					//d3.select("#dtot").style("color" , "rgba(51, 102, 153,1)");
+				}
+				//else d3.select("#derr").style("color" , "rgba(0,104,55,1)");
+				else d3.selectAll(".label2").style("color" , "rgba(0,104,55,1)");
+				//d3.select("#dupd").style("color" , "rgba(51, 102, 153,1)");
+				//d3.select("#dnew").style("color" , "rgba(51, 102, 153,1)");
+				//d3.select("#ddurH").style("color" , "rgba(165,0,38,.7)");
+				//d3.select("#dfile").style("color" , "rgba(51, 102, 153,1)");
+				//d3.select("#derrM").style("color" , "rgba(165,0,38,.7)");
+			});
+		
+	}
+	else
+	{
+		//d3.selectAll(".label2").style("color" , "color:#fff;rgba(179,179,179,1)");
+		d3.selectAll(".label2").style("color" , "#fff");
+		d3.select("#dtot").text("00,000,000");
+		d3.select("#derr").text("00,000");
+		d3.select("#dupd").text("00,000,000");
+		d3.select("#dnew").text("00,000,000");
+		d3.select("#ddurH").text("00.00");
+		d3.select("#dfile").text("000");
+		d3.select("#derrM").text("000");
+		d3.select("#demail").text("000");
+		
+	}
+	//console.log("selectedDateLast:" + selectedDateLast);
+	//document.getElementById(selectedDateLast).focus();
+	//var idSelect = "#"+selectedDateLast;
+	//document.getElementById(selectedDateLast).attr("style", "stroke:red");
+	//d3.select("#dtot").text( function(d) {SelectedData[0].Tot_Records;});
+	
+	buildDataTable();
+	//LineChartData();
+}
+
+function buildDataTable()
+{
+
+// d3.select(".dataFile_err").selectAll(".fileList").remove();
+ d3.selectAll(".fileListDiv").remove();
+ d3.selectAll(".fileDataDiv").remove();
+ d3.selectAll(".errDataDiv").remove();
+ //d3.select(".dataFile_err").selectAll(".errData").remove();
+ 
+ 
+  
+ d3.select(".fileList")
+  .append("div")
+  .attr("class", "fileListDiv")
+  .attr("valign", "top")
+  .attr("align", "right");
+
+ d3.select(".fileData")
+	.append("div")
+    .attr("class", "fileDataDiv")
+	.attr("valign", "top")
+	.attr("align", "left");
+	
+d3.select(".errData")
+	.append("div")
+    .attr("class", "errDataDiv")
+	.attr("valign", "top")
+	.attr("align", "left");
+	
+ 
+	
+ 
+		// the columns you'd like to display
+ var columns = ["Error", "Count"];
+ var columnsFile = ["Layouts"];
+ var columnsFileLayout = ["Category"];
+ var dataTB = [];
+ var dataFile = [];
+ var File = [];
+	//var columns = ["Files"];
+var fileList = "";
+	if (SelectedData.length > 0 ) 
+	{
+		SelectedData.forEach (function (d) {
+		////console.log(d.Files);
+		////console.log(d.Errors);
+		//console.log(d.Errors_cnt);
+		//dataTB = d.Errors_cnt;
+		d.Errors_cnt.forEach ( function(d) {
+		var arrStr = d.split("-");
+		////console.arrStr;
+		if(arrStr[0] != "") 
+		{	
+			var datarow = { "Error" : arrStr[0] , "Count" : parseInt(arrStr[1]) }
+			dataTB.push(datarow);}
+		});
+		
+		
+		d.Files.forEach ( function(d) {
+		
+		var fileClass = "";
+				var val = d.substring(0,3);
+				//console.log("val: " + val);
+				switch (val)
+				{
+					case "eli":
+						fileClass = "Eligibility"
+						break;
+					case "pro":
+						fileClass = "Provider"
+						break;
+					case "ceg":
+						fileClass = "CEG"
+						break;
+					case "lab":
+						fileClass = "LAB"
+						break;
+					case "PHA":
+						fileClass = "Pharmacy Claims"
+						break;
+					case "CLA":
+						fileClass = "Medical Claims"
+						break;
+				}
+				
+		var datarow = { "Layouts" : d , "Fclass" : fileClass } 
+		dataFile.push(datarow);
+		
+		
+		//console.log("fileList");
+		//console.log(fileList);
+		if (fileList.indexOf(fileClass) == -1) {
+			//console.log("fileList.indexOf(d) == -1");
+			//console.log(d);
+			var datarow = { "Category" : fileClass } 
+			fileList = fileList + fileClass + "|";
+			File.push(datarow);
+			}
+		
+		});
+		
+	})}
+//console.log("dataFile");
+//console.log(dataFile);
+
+
+if(dataTB.length > 0)
+{
+ d3.select(".errDataDiv")
+  .append("table")
+  .attr("border", borderT)
+  .attr("cellpadding" , cellpaddingD)
+  .attr("class", "dataTable")
+  .append("thead")
+  .append("tr")
+        .selectAll("th")
+        .data(columns)
+        .enter()
+        .append("th")
+            .text(function(column) { return column; })
+			.attr("align", "left");
+ 
+var tbody  = d3.select(".dataTable")
+  .append("tbody");
+  
+ var rows = tbody.selectAll("tr")
+        .data(dataTB)
+        .enter()
+        .append("tr");
+	
+var cells = rows.selectAll("td")
+        .data(function(row) {
+            //console.log(row.error);
+			return columns.map(function(column) {
+                //console.log("column: " + column);
+				//var dataRow = {column: column, value: row[column]};
+				var dataRow = {column: column, value: addCommas(row[column])};
+				//console.log(dataRow);
+				//return {column: column, value: row[column]};
+				return dataRow;
+            });
+			})
+        .enter()
+        .append("td")
+            .text(function(d) { return d.value; })
+			.attr("align", "left");
+	}
+if(dataFile.length > 0)
+{
+ d3.select(".fileDataDiv")
+  .append("table")
+  .attr("border", borderT)
+  .attr("cellpadding" , cellpaddingD)
+  .attr("class", "fileTable")
+  .append("thead")
+  .append("tr")
+        .selectAll("th")
+        .data(columnsFile)
+        .enter()
+        .append("th")
+            .text(function(column) { return column; })
+			.attr("align", "right");
+ 
+var tbody  = d3.select(".fileTable")
+  .append("tbody");
+  
+ var rows = tbody.selectAll("tr")
+        .data(dataFile)
+        .enter()
+        .append("tr");
+	
+var cells = rows.selectAll("td")
+        .data(function(row) {
+            //console.log(row.error);
+			return columnsFile.map(function(column) {
+                //console.log("column: " + column);
+				//var dataRow = {column: column, value: row[column]};
+				var fileClass = "";
+				var val = row[column].substring(0,3);
+				//console.log("val: " + val);
+				switch (val)
+				{
+					case "eli":
+						fileClass = "Eligibility"
+						break;
+					case "pro":
+						fileClass = "Provider"
+						break;
+					case "ceg":
+						fileClass = "CEG"
+						break;
+					case "lab":
+						fileClass = "LAB"
+						break;
+					case "PHA":
+						fileClass = "Pharmacy Claims"
+						break;
+					case "CLA":
+						fileClass = "Medical Claims"
+						break;
+				}
+				var dataRow = {column: column, value: row[column], Fclass: fileClass};
+				//console.log(dataRow);
+				//return {column: column, value: row[column]};
+				return dataRow;
+            });
+			})
+        .enter()
+        .append("td")
+		.attr("align", "right")
+            .text(function(d) { return d.value; });
+			
+	//console.log("File")
+	//console.log(File)
+
+d3.select(".fileListDiv")
+  .append("table")
+  .attr("border", borderT)
+  .attr("cellpadding" , cellpaddingD)
+  .attr("class", "fileLTable")
+  .append("thead")
+  .append("tr")
+        .selectAll("th")
+        .data(columnsFileLayout)
+        .enter()
+        .append("th")
+            .text(function(column) { return column; })
+			.attr("align", "left");
+ 
+var tbody  = d3.select(".fileLTable")
+  .append("tbody");
+  
+ var rows = tbody.selectAll("tr")
+        .data(File)
+        .enter()
+        .append("tr");
+	
+var cells = rows.selectAll("td")
+        .data(function(row) {
+            //console.log(row.error);
+			return columnsFileLayout.map(function(column) {
+                //console.log("column: " + column);
+				//var dataRow = {column: column, value: row[column]};
+				var dataRow = {column: column, value: row[column]};
+				//console.log(dataRow);
+				//return {column: column, value: row[column]};
+				return dataRow;
+					});
+			})
+        .enter()
+        .append("td")
+            .text(function(d) { return d.value; })
+			.attr("align", "right");
+	}
+
+ 
+}
+function buildSummaryData () {
+	
+	var Summ_Recs = 0;
+	var Summ_Err = 0;
+	var Summ_Upd = 0;
+	var Summ_New = 0;
+	
+	var Summ_Email = 0;
+	
+	var Summ_Load_sec = 0.00;
+	var Summ_Load_hr = 0.00;
+	var Summ_days = 0;
+	var Summ_days_err = 0;
+	
+	var strFile = "";
+	var strFileErr = "";
+	SummaryData = [];
+	var errMsgs = [];
+	var fileLayout = [];
+	
+	//console.log(BIGDATA);
+	BIGDATA.forEach(function (d) {
+		if (! isNaN(d.Tot_Records)) Summ_Recs = Summ_Recs + parseInt(d.Tot_Records);
+		if (! isNaN(d.Tot_Failures)) Summ_Err = Summ_Err + parseInt(d.Tot_Failures);
+		if (! isNaN(d.Tot_Updates)) Summ_Upd = Summ_Upd + parseInt(d.Tot_Updates);
+		if (! isNaN(d.Tot_Inserts)) Summ_New = Summ_New + parseInt(d.Tot_Inserts);
+		if (! isNaN(d.Tot_Duration_Hrs)) Summ_Load_hr = Summ_Load_hr + d3.round(Number(d.Tot_Duration_Hrs),2);
+		if (! isNaN(d.Tot_Duration_Secs)) Summ_Load_sec = Summ_Load_sec + d3.round(Number(d.Tot_Duration_Secs),2);
+		if (! isNaN(d.tot_unique_emails)) Summ_Email = Summ_Email + parseInt(d.tot_unique_emails);
+		
+		Summ_days  = Summ_days +1;
+		if (d.Tot_Failures > 0) Summ_days_err = Summ_days_err +1;
+		
+		if (typeof(d.File_Layouts) == "string") 
+		{ 
+			var strFilString = d.File_Layouts;
+			strCurrFile = strFilString.split("|");
+			strCurrFile.forEach (function(d) {
+				if (strFile.indexOf(d) == -1 && (d !="") ) strFile = strFile + d + "|";
+			});
+		}
+		if (typeof(d.Error_Msgs) == "string") 
+		{ 
+			var strErrString = d.Error_Msgs;
+			strCurrErr = strErrString.split("|");
+			
+			for (var i=0;i<strCurrErr.length;i++)
+			{
+				if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
+					{
+						strFileErr = strFileErr + strCurrErr[i] + "|";
+					}
+			}
+		}
+	})
+	if (typeof(strFileErr) == "string") {
+		var arrErr = strFileErr.split("|");
+		arrErr.forEach( function(d) {
+				if (d != "") errMsgs.push(d);
+			})
+	}
+	if (typeof(strFile) == "string") {
+		var arrFileLayout = strFile.split("|");
+		arrFileLayout.forEach( function(d) {
+				if (d != "") fileLayout.push(d);
+			})
+	}
+
+	var datarow = {
+						"Tot_Records" :  Summ_Recs,
+						"Tot_Inserts" : Summ_New,
+						"Tot_Updates" : Summ_Upd,
+						"Tot_Failures" : Summ_Err,
+						"Tot_Duration_Secs" : d3.round(Summ_Load_sec,2),
+						"Tot_Duration_Hrs" : d3.round(Summ_Load_hr,2),
+						"File_Layouts" : fileLayout.length,
+						"Error_Msgs" : errMsgs.length,
+						"Tot_days" : Summ_days-1,
+						"Tot_Err_days" :Summ_days_err-1,
+						"Files" : fileLayout,
+						"Errors" : errMsgs,
+						"tot_unique_emails" :  Summ_Email
+						
+					}
+	SummaryData.push(datarow);
+	//console.log(SummaryData);
+	if (SummaryData.length > 0 ) 
+	{
+		SummaryData.forEach (function (d) {
+				d3.select("#Sdtot").text(function (x) { return addCommas(d.Tot_Records);});
+				d3.select("#Sderr").text(function (x) { return addCommas(d.Tot_Failures);});
+				d3.select("#Sdupd").text(function (x) { return addCommas(d.Tot_Updates);});
+				d3.select("#Sdnew").text(function (x) { return addCommas(d.Tot_Inserts);});
+				d3.select("#SddurH").text(function (x) { return addCommas(d.Tot_Duration_Hrs);});
+				d3.select("#Sdfile").text(function (x) { return addCommas(d.File_Layouts);});
+				d3.select("#SderrM").text(function (x) { return addCommas(d.Error_Msgs);});
+				d3.select("#SderrDAYS").text(function (x) { return addCommas(d.Tot_Err_days);});
+				d3.select("#SdDAYS").text(function (x) { return addCommas(d.Tot_days);});
+				d3.select("#Sdemail").text(function (x) { return addCommas(d.tot_unique_emails);});
+			});
+	}
+	else
+	{
+		d3.select("#Sdtot").text("");
+		d3.select("#Sderr").text("");
+		d3.select("#Sdupd").text("");
+		d3.select("#Sdnew").text("");
+		d3.select("#SddurH").text("");
+		d3.select("#Sdfile").text("");
+		d3.select("#SderrM").text("");
+		d3.select("#SderrDAYS").text("");
+		d3.select("#SdDAYS").text("");
+		d3.select("#Sdemail").text("");
+		
+	}
+	LineChartData();
+	
+}
+
+function LineChartData(){
+
+console.log("allDays");
+lineData = [];
+
+DateArr = d3.nest()
+			.key(function(d) { return d.day; })
+			.rollup(function(d) {return 0;})
+			.map(allDays);
+			
+DateArrCumm = d3.nest()
+			.key(function(d) { return d.day; })
+			.rollup(function(d) {return 0;})
+			.map(allDays);
+			
+var finalCnt = 0;
+//var parseDate = d3.time.format("%Y%m%d").parse
+
+for(var y in DateArr) {
+	for (var z in dataBIG) {
+			if (y == z) 
+			{
+				DateArr[y] = dataBIG[z];
+				finalCnt = finalCnt + dataBIG[z];
+				//console.log(dataBIG[z]);
+			}
+		}
+	DateArrCumm[y] = finalCnt;
+	var format = d3.time.format("%Y-%m-%d");
+	var strVal = document.getElementById(select_1).textContent;
+	
+	var datarow = { "date" : format.parse(y)
+					//, "cumm" : finalCnt
+					,"Cnt" : DateArr[y]
+					//, strVal : DateArr[y]
+		}
+	lineData.push(datarow);
+	}
+console.log(DateArr);
+console.log(DateArrCumm);
+console.log(lineData);
+
+d3.selectAll(".lineChart").remove();
+
+//console.log(document.getElementById("lineChartRow1").style.width);
+//var margin = {top: 20, right: 80, bottom: 30, left: 50},
+var margin = {top: 20, right: 60, bottom: 20, left: 30},
+	width = widthLine - margin.left - margin.right,
+    height = heightLine - margin.top - margin.bottom;
+
+var parseDate = d3.time.format("%Y%m%d").parse;
+
+
+
+var formatPercent = d3.format(".0%");
+
+var x = d3.time.scale()
+	.domain([new Date(lineData[0].date), d3.time.day.offset(new Date(lineData[lineData.length - 1].date), 1)])
+    .range([0, width/300])
+//console.log(x.domain());
+//console.log(x.range());
+//console.log(x.ticks());
+
+var y = d3.scale.linear()
+	.domain([0, d3.max(lineData, function(d) { return d.Cnt; })])
+    .range([height, 0]);
+
+var xAxis = d3.svg.axis()
+		.scale(x)
+		.orient("bottom")
+		//.ticks(d3.time.days, 1)
+		.tickFormat(d3.time.format('%b'))
+		//.tickSize(0)
+		//.tickPadding(8);
+	//.text(function(d) {console.log(d);} );
+	
+var yAxis = d3.svg.axis()
+    .scale(y)
+    .orient("left")
+    .tickFormat(formatPercent);
+
+var tip = d3.tip()
+  .attr('class', 'd3-tip')
+  .offset([-10, 0])
+  .html(function(d) {
+    return "<strong>Records:</strong> <span style='color:red'>" + d.Cnt + "</span>";
+  })	
+  
+
+var svg = d3.select("#DivlineChart1")
+	.append("svg")
+	.attr("class" , "lineChart")
+    .attr("width", (width + margin.left + margin.right) * 1.05)
+    .attr("height", height + margin.top + margin.bottom)
+  .append("g")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+	
+x.domain(lineData.map(function(d) { return d.date; }));
+y.domain([0, d3.max(lineData, function(d) { return d.Cnt; })]);
+	
+svg.call(tip);
+
+svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+	  //.attr("x", function(d) { //console.log(x(d.date)); 
+		//return parseInt(x(d.date)/300); })
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      //.call(yAxis)
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", ".71em")
+      .style("text-anchor", "end")
+      //.text("Record Count");
+
+svg.append("text")
+        .attr("x", (width / 2))             
+        //.attr("y", 0 - (margin.top/2))
+		.attr("y", 0 - (height/30))
+        .attr("text-anchor", "middle") 
+		//.style("color" , "rgba(51, 102, 153,.5)")
+		//.attr("style" , "font-color:red;")
+		//.attr("font-color" , "blue;")
+        //.style("font-size", "16px") 
+        //.style("text-decoration", "underline")  
+        .text("ANNUAL TREND BAR CHART FOR " + document.getElementById(select_1).textContent);
+	
+//console.log(d3.select(".RdYlGn").selectAll(".rect")[0]); 
+var objCalendar = d3.select(".RdYlGn").selectAll(".rect")[0].parentNode;
+var objCalendar_g = objCalendar.children;
+var objCalendar_g_children = objCalendar_g[0].children;
+//console.log(objCalendar_g_children[0].style); 
+		
+ var rect = svg.selectAll(".bar")
+      .data(lineData)
+    .enter().append("rect")
+      .attr("class", "bar")
+	  .attr("id", function(d) { return buildDataview (d.date, "");})
+      .attr("x", function(d) { //console.log(x(d.date)); 
+		return parseInt(x(d.date)); })
+	  .attr("width", widthbar)
+      .attr("y", function(d) { return y(d.Cnt); })
+      .attr("height", function(d) { return height - y(d.Cnt); })
+	  .on('mouseover', function(d) {
+	  
+		this.style.fill = "red";
+		for(var i =0; i < objCalendar_g_children.length; i++ ) {
+				objCalendar_g_children[i].style.outline = "";
+				objCalendar_g_children[i].style.outlineColor  = "";
+				objCalendar_g_children[i].style.outlineWidth = "";
+			}
+		var ClassNameSelected;
+		
+		for(var i =0; i < objCalendar_g_children.length; i++ ) {
+			if (objCalendar_g_children[i].id == buildDataview(d.date, "")) {
+				//console.log(objCalendar_g_children[i].id);
+				//console.log(objCalendar_g_children[i].className.baseVal);
+				//console.log(objCalendar_g_children[i].style); 
+				//console.log(objCalendar_g_children[i].style.outline); 
+				//console.log(objCalendar_g_children[i].style.outlineColor);
+				//console.log(objCalendar_g_children[i].style.outlineWidth);
+				objCalendar_g_children[i].style.outline = "solid";
+				objCalendar_g_children[i].style.outlineColor  = "red";
+				objCalendar_g_children[i].style.outlineWidth = "1px";
+				ClassNameSelected = objCalendar_g_children[i].className.baseVal;
+				ClassNameSelected = ClassNameSelected.replace("day ", "");
+				//console.log(ClassNameSelected);
+				
+			 }
+			}
+			
+		
+		//console.log(d3.select(".RdYlGn").selectAll(".rect")[0]); 
+		var objLegend = d3.select(".legend").selectAll(".rect")[0].parentNode;
+		var objLegend_g = objLegend.children;
+		//console.log(objLegend_g); 
+		for(var i =0; i < objLegend_g.length; i++ ) {
+			if(objLegend_g[i].children[0].id == ClassNameSelected) {
+			console.log(objLegend_g[i].children[0].id)
+			objLegend_g[i].children[0].style.outline = "solid";
+			objLegend_g[i].children[0].style.outlineColor  = "red";
+			objLegend_g[i].children[0].style.outlineWidth = "1px";
+			}
+		}
+		
+		//var objLegend_g_children = objLegend_g[0].children;
+		//console.log(objLegend_g_children[0].style); 
+			
+		buildSelectData(buildDataview (d.date, ""),"","");})
+   .on('mouseout', function(d){
+	  
+		this.style.fill = "rgba(0,0,255,0.9)";
+		for(var i =0; i < objCalendar_g_children.length; i++ ) {
+			if (objCalendar_g_children[i].id == buildDataview(d.date, "")) {
+				objCalendar_g_children[i].style.outline = "";
+				objCalendar_g_children[i].style.outlineColor  = "";
+				objCalendar_g_children[i].style.outlineWidth = "";
+			 }
+			}
+			
+		//console.log(d3.select(".RdYlGn").selectAll(".rect")[0]); 
+		var objLegend = d3.select(".legend").selectAll(".rect")[0].parentNode;
+		var objLegend_g = objLegend.children;
+		//console.log(objLegend_g); 
+		for(var i =0; i < objLegend_g.length; i++ ) {
+			//if(objLegend_g[i].children[0].id == ClassNameSelected) {
+			//console.log(objLegend_g[i].children[0].id)
+			objLegend_g[i].children[0].style.outline = "";
+			objLegend_g[i].children[0].style.outlineColor  = "";
+			objLegend_g[i].children[0].style.outlineWidth = "";
+			//}
+		}
+		
+		})
+		
+rect.append("title")
+	.text(function(d) {return document.getElementById(select_1).textContent + " - " + buildDataview (d.date, "") + ": " + addCommas(d.Cnt);});
+}
+function type(d) {
+  d.Cnt = +d.Cnt;
+  return d;
+}
+// End of Line Chart Build
+function addCommas(nStr)
+{
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+//d3.select(".C4").on("mouseout" , function() { d3.select(selectedDateLast).classed("active", false)});
+d3.select(self.frameElement).style("height", "2910px");
+
+</script>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-43984273-1', 'visualizationlab.github.io');
+  ga('send', 'pageview');
+
+</script>
