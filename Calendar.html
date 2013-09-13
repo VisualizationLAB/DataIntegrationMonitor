@@ -993,7 +993,7 @@ dataOriginal.forEach(function(d){
 			var strFileErr = "";
 			for (var i=0;i<strCurrErr.length;i++)
 				{
-				if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
+					if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
 					{
 						strFileErr = strFileErr + strCurrErr[i] + "|";
 					}
@@ -1688,7 +1688,10 @@ function buildSelectData (strDt, StrClass, dtNm) {
 				if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
 					{
 						strFileErr = strFileErr + strCurrErr[i] + "|";
-						strFileErrCnt = strFileErrCnt + strCurrErr[i] + "-" + strCurrErr[i+1] + "|";
+						
+					}
+				if (i%2 == 0) { 
+					strFileErrCnt = strFileErrCnt + strCurrErr[i] + "-" + strCurrErr[i+1] + "|";
 					}
 				}
 			}
@@ -1736,8 +1739,8 @@ function buildSelectData (strDt, StrClass, dtNm) {
 			
 		}
 	})
-	//console.log("SelectedData");
-	//console.log(SelectedData);
+	console.log("SelectedData");
+	console.log(SelectedData);
 	//console.log(typeof(BIGDATA));
 	//console.log(typeof(SelectedData));
 	if (SelectedData.length > 0 ) 
@@ -2089,6 +2092,7 @@ function buildSummaryData () {
 				if (strFile.indexOf(d) == -1 && (d !="") ) strFile = strFile + d + "|";
 			});
 		}
+		//var strWithError = "";
 		if (typeof(d.Error_Msgs) == "string") 
 		{ 
 			var strErrString = d.Error_Msgs;
@@ -2100,15 +2104,21 @@ function buildSummaryData () {
 					{
 						strFileErr = strFileErr + strCurrErr[i] + "|";
 					}
+				//if (i%2 == 0) {
+				// strWithError = strWithError + strCurrErr[i] + "-" +  strCurrErr[i+1] + "|";
+				//}
 			}
 		}
+		
+		original_error = d.Error_Msgs;
 	})
 	if (typeof(strFileErr) == "string") {
+	//if (typeof(strWithError) == "string") {
 		var arrErr = strFileErr.split("|");
 		arrErr.forEach( function(d) {
 				if (d != "") errMsgs.push(d);
 			})
-	}
+	}	
 	if (typeof(strFile) == "string") {
 		var arrFileLayout = strFile.split("|");
 		arrFileLayout.forEach( function(d) {
