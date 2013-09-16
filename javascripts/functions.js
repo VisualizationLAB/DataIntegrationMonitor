@@ -1,3 +1,13 @@
+// Contains the following functionc:
+//1. getDomainMax()
+//2. getData()
+//3. mouseOver()
+//4. buildDisplayDate()
+//5. buildDataview()
+//6. addCommas()
+//7. type()
+
+
 function type(d) {
   d.Cnt = +d.Cnt;
   return d;
