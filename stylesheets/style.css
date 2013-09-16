@@ -1,0 +1,260 @@
+body {
+  font: 10px sans-serif;
+  shape-rendering: crispEdges;
+}
+
+#DivlineChart1.lineChart.text {
+  color: red;
+  shape-rendering: crispEdges;
+}
+
+/*line graph*/
+
+.axis path,
+.axis line {
+  fill: none;
+  //stroke: #000;
+  stroke: rgba(51, 102, 153,.5);
+  shape-rendering: crispEdges;
+}
+
+.bar {
+  //fill: orange;
+  //fill: rgba(179,179,179,0.5);
+  //fill: rgba(51, 102, 153,.5)
+  //fill: aliceblue;
+  fill: rgba(0,0,255,0.9)
+}
+
+.bar:hover {
+  fill: orangered ;
+}
+
+.x.axis path {
+  display: none;
+}
+
+.d3-tip {
+  line-height: 1;
+  font-weight: bold;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 2px;
+}
+
+/* Creates a small triangle extender for the tooltip */
+.d3-tip:after {
+  box-sizing: border-box;
+  display: inline;
+  font-size: 10px;
+  width: 100%;
+  line-height: 1;
+  color: rgba(0, 0, 0, 0.8);
+  content: "\25BC";
+  position: absolute;
+  text-align: center;
+}
+
+/* Style northward tooltips differently */
+.d3-tip.n:after {
+  margin: -1px 0 0 0;
+  top: 100%;
+  left: 0;
+}
+/*line graph END */
+
+.day {
+  //fill: #fff;
+  fill:rgba(179,179,179,0.2);
+  //stroke: #ccc;
+  outline-style:none;
+  stroke: #fff;
+  stroke-width: 1px;
+  outline-width:1px;	
+  outline-style:none;
+	outline-color:#fff;
+}
+
+.day.active {
+  outline-width:1px;	
+  outline-style:solid;
+  outline-color:black;
+}
+
+.month {
+  fill: none;
+  //stroke: #000;
+  stroke: #fff;
+  stroke-width: 4px;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font: 10px sans-serif;
+}
+.H1 {
+   font-size: 15px;
+   -webkit-font-smoothing: subpixel-antialiased;
+   padding: 10px;
+  // color: rgba(102, 102, 102,1); 
+  color: rgba(51, 102, 153,.5);
+   TEXT-ALIGN: CENTER;
+    font-weight:bold;
+}
+#summ_row1 {
+  //color: rgba(153, 153, 153,.7);
+  //color: rgba(51, 102, 153,1);
+  color:rgba(179,179,179,1);
+  stroke: red;
+  font-size:10px;
+  -webkit-font-smoothing: subpixel-antialiased;
+  //font-weight:bold;
+}
+
+.Summ1{
+  //color: rgba(153, 153, 153,.7);
+  //color: rgba(51, 102, 153,1);
+  color:rgba(179,179,179,1);
+  stroke: red;
+  font-size:15px;
+  //font-weight:bold;
+}
+.label1.active {
+  font-size:15px;
+  -webkit-font-smoothing: subpixel-antialiased;
+ //color:rgba(0,104,55,.3); 
+ color: rgba(51, 102, 153,1);
+}
+
+.sub_title{
+  //color: rgba(153, 153, 153,.7);
+  //color: rgba(51, 102, 153,1);
+  color: blue;
+  stroke: red;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size:14px;
+  font-weight:bold;
+}
+.sub_titleL{
+  //color: rgba(153, 153, 153,.7);
+  color: rgba(179,179,179,0.7);
+  stroke: red;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size:14px;
+  font-weight:bold;
+}
+#summ_row2 {
+  //color: rgba(51, 102, 153,.7);
+ // color: rgba(51, 102, 153,1);
+ //color:rgba(179,179,179,1);
+ color:white;
+  stroke: red;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size:40px;
+}
+.label2 {
+	color:rgba(179,179,179,1);
+	font-size:25px;
+	-webkit-font-smoothing: subpixel-antialiased;
+}
+.summ_row4 {
+  //color: rgba(51, 102, 153,.7);
+  color: rgba(51, 102, 153,1);
+  stroke: red;
+  font-size:20px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+#summ_Line {
+	//cellpadding: 10px;
+	font-size:20px;
+}
+table.control_2:hover {
+  fill: red;
+}
+
+.control_1_2 { 
+cell-padding: 10;
+}
+
+#currDate{
+  //color: rgba(51, 102, 153,.7);
+  color: rgba(51, 102, 153,1);
+  font-size:40px;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.C4{
+   //height: 250px;
+   //border: 2px solid #F00;
+   border: none;
+   //width: 850px;
+    //padding: 3px;
+    overflow: auto;
+
+    /* POSITION */
+    position:fixed;
+}
+
+.rect.text {
+font-size: 4px;
+}
+
+.q11-11{fill:rgba(0,104,55,1)}
+.qE11-11{fill:rgba(0,104,55,1)}
+
+.q11-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE11-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+
+.q10-11{fill:rgba(0,104,55,1)}
+.q9-11{fill:rgba(0,104,55,.9)}
+.q8-11{fill:rgba(0,104,55,.8)}
+.q7-11{fill:rgba(0,104,55,.7)}
+.q6-11{fill:rgba(0,104,55,.6)}
+.q5-11{fill:rgba(0,104,55,.5)}
+
+.q4-11{fill:rgba(0,104,55,.4)}
+.q3-11{fill:rgba(0,104,55,.3)}
+.q2-11{fill:rgba(0,104,55,.2)}
+.q1-11{fill:rgba(0,104,55,.1)}
+.q0-11{fill:rgba(0,104,55,.075)}
+.Nq0-11{fill:rgba(255,255,0,.2)}
+
+
+.qE10-11{fill:rgba(165,0,38,1)}
+.qE9-11{fill:rgba(165,0,38,.9)}
+.qE8-11{fill:rgba(165,0,38,.8)}
+.qE7-11{fill:rgba(165,0,38,.7)}
+.qE6-11{fill:rgba(165,0,38,.6)}
+.qE5-11{fill:rgba(165,0,38,.5)}
+
+.qE4-11{fill:rgba(165,0,38,.4)}
+.qE3-11{fill:rgba(165,0,38,.3)}
+.qE2-11{fill:rgba(165,0,38,.2)}
+.qE1-11{fill:rgba(165,0,38,.1)}
+.qE0-11{fill:rgba(165,0,38,.075)}
+.NqE0-11{fill:rgba(0,104,55,.3)}
+
+.qE10-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE9-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE8-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE7-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE6-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE5-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE4-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE3-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE2-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE1-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.qE0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.NqE0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+
+.q10-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q9-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q8-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q7-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q6-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q5-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q4-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q3-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q2-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q1-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.q0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+.Nq0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
