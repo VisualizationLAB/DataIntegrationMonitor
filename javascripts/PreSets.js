@@ -14,12 +14,12 @@ var widthCalendar = cellSize * 58;
 var heightCalendar = cellSize * 10;
 //var verticalCalendarOffset = heightCalendar * .1;
 if (screen.availWidth > 1280) { 
-console.log("here");
+//console.log("here");
 	var verticalCalendarOffset = 20;
 }
 else 
 {
-	console.log("here2");
+	//console.log("here2");
 	var verticalCalendarOffset = 70;
 }
 console.log(screen.availWidth);
@@ -50,7 +50,12 @@ var dataBIG = [];
 var DateArr = [];
 var DateArrCumm = [];
 var lineData = [];
+
 var BarChartData = [];
+var BarChartData_filterCat = [];
+var BarChartDataSelect = [];
+var BarChartSelect_filterCat = [];
+
 var selectedDate = ""
 var selectedDateLast = ""
 var lastClicked;
@@ -60,6 +65,8 @@ var allDays = [];
 
 var SummaryData = [];
 var SelectedData = [];
+
+
 
 var day = d3.time.format("%w"),
     week = d3.time.format("%U"),
