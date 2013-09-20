@@ -122,14 +122,51 @@ d3.select(".theatre")
 	.append("tr")
   .attr("class" , "dataFile_err");
   
-d3.select(".dataFile_err")
+ d3.selectAll(".dataFile_err")
+	.append("td")
+	.attr("width" , (widthBarChart))
+    .attr("class", "SummDataFileTD")
+	.attr("valign", "top")
+	.attr("align", "right")
+		.append("table")
+		.attr("class", "SummDataFileT")
+		.attr("border", borderT)
+			.append("tr")
+				.append("td")
+					.text("TOTAL")
+					.attr("class", "SummDataFile")
+					.attr("valign", "top")
+					.attr("align", "left");
+					
+/*d3.select(".dataFile_err")
+	.append("td")
+    .attr("class", "SummData")
+	.attr("valign", "top")
+	.attr("align", "right")
+		.append("table")
+		.attr("class", "SummDataDivT")
+		.attr("border", borderT)
+			.append("tr")
+				.append("td")
+					.attr("class", "SummDataDiv")
+					.attr("valign", "top")
+					.attr("align", "left");*/
+					
+/*d3.select(".SummDataDivT")
+	.append("tr")
+				.append("td")
+					.attr("class", "DailyDataDiv")
+					.attr("valign", "top")
+					.attr("align", "left");*/
+					
+/*d3.select(".dataFile_err")
   .append("td")
   .attr("width" , (widthBarChart * .5))
   .attr("class", "fileList")
   .attr("valign", "top")
   .attr("align", "right")
   .append("div")
-.attr("class" , "fileListDiv");;
+.attr("class" , "fileListDiv");
 
  d3.select(".dataFile_err")
 	.append("td")
@@ -138,24 +175,91 @@ d3.select(".dataFile_err")
 	.attr("valign", "top")
 	.attr("align", "left")
 	.append("div")
-	.attr("class" , "fileDataDiv");
+	.attr("class" , "fileDataDiv");*/
 	
  d3.select(".dataFile_err")
 	.append("td")
 	.attr("align", "right")
 	.attr("valign", "top")
-	.attr("width" ,widthLine)
-	.append("div")
-	.attr("id", "DivlineChart1");
+	//.attr("width" ,widthLine)
+	.append("table")
+		.attr("class", "detailMiddle")
+		.attr("border", borderT);
 	
-d3.select(".dataFile_err")
+d3.select(".detailMiddle")
+			.append("tr")
+				.append("td")
+					.attr("colspan", 2)
+					.append("div")
+						.attr("id", "DivlineChart1");
+
+d3.select(".detailMiddle")
+	.append("tr")
+		.attr("class", "summaryDetail")
+		.append("td")
+			.attr("class", "SummData")
+			.attr("valign", "top")
+			.attr("align", "left")
+			.append("table")
+			.attr("class", "SummDataDivT")
+			.attr("border", borderT)
+				.append("tr")
+					.append("td")
+						.text("TOTAL")
+						.attr("class", "SummDataDiv")
+						.attr("valign", "top")
+						.attr("align", "left");
+
+d3.select(".summaryDetail")
+  .append("td")
+			.attr("class", "DailyData")
+			.attr("valign", "top")
+			.attr("align", "left")
+			.append("table")
+			.attr("class", "DailyDataDivT")
+			.attr("border", borderT)
+				.append("tr")
+					.append("td")
+						.text("TODAY")
+						.attr("class", "DailyDataDiv")
+						.attr("valign", "top")
+						.attr("align", "left");
+						
+
+					
+/*d3.select(".dataFile_err")
 	.append("td")
 	.attr("width" , (widthBarChart))
     .attr("class", "errData")
 	.attr("valign", "top")
 	.attr("align", "right")
 	.append("div")
-	.attr("class" , "errDataDiv");;
+	.attr("class" , "errDataDiv");*/
+	
+/*d3.select(".dataFile_err")
+	.append("td")
+	.attr("width" , (widthBarChart))
+    .attr("class", "SummDataFile")
+	.attr("valign", "top")
+	.attr("align", "right")
+	.append("div")
+	.attr("class" , "errDataDiv");*/
+
+
+ d3.selectAll(".dataFile_err")
+	.append("td")
+	//.attr("width" , (widthBarChart))
+    .attr("class", "DailyDataFileTD")
+	.attr("valign", "top")
+	.attr("align", "right")
+		.append("table")
+		.attr("class", "DailyDataFileT")
+		.attr("border", borderT)
+			.append("tr")
+				.append("td")
+					.attr("class", "DailyDataFile")
+					.attr("valign", "top")
+					.attr("align", "left");
 
 //// _________drawing the DETAILS SECTION__________________________//
 mainTable.append("tr")
