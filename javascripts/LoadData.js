@@ -150,6 +150,7 @@ console.log(BIGDATA);
 
 drawCalender(select_1, "0");
 buildSummaryData ();
+buildFileBarChart();
 
 var d = new Date();
 selectedDate = buildDataview (d, "");
