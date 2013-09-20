@@ -184,7 +184,8 @@ function drawCalender(ind, caller) {
 				var objBarChart_g_children = objBarChart_g[0].children;
 				for(var i =0; i < objBarChart_g_children.length; i++ ) {
 							if (objBarChart_g_children[i].id == d) {
-								objBarChart_g_children[i].style.fill = "rgba(0,0,255,0.9)";
+								//objBarChart_g_children[i].style.fill = "rgba(0,0,255,0.9)";
+								objBarChart_g_children[i].style.fill = "steelblue";
 							}
 				}
 				var objLegend = d3.select(".legend").selectAll(".rect")[0].parentNode;
