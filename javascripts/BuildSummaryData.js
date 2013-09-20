@@ -55,27 +55,62 @@ function buildSummaryData () {
 		}
 		
 		original_error = d.Error_Msgs;
-	})
+	})//BIGDATA.forEach(function (d)
+	
 	if (typeof(strFileErr) == "string") {
 
 		var arrErr = strFileErr.split("|");
 		arrErr.forEach( function(d) {
 				if (d != "") errMsgs.push(d);
 			})
-	}	
+	}
+	
+	var CatStr = "";
 	if (typeof(strFile) == "string") {
 		var arrFileLayout = strFile.split("|");
 		arrFileLayout.forEach( function(d) {
 				if (d != "") 
 				{
+					var tot_rec = 0;
+					var tot_upd = 0;
+					var tot_new = 0;
+					var tot_err = 0;
+					var durH = 0.00;
+					var email = 0;
+					
 					fileLayout.push(d);
-					var datarow = { "File_Layouts" : d,
-									"Cnt" : 0 };
-					BarChartData.push(datarow);
-				}
-			})
-	}
+					
+					
+					BIGDATA.forEach(function (x) {
+						x.emails.forEach ( function(y) {
+							if ( y.File_Layouts == d) {
+								tot_rec = tot_rec + parseInt(y.Tot_Records);
+								tot_err = tot_err + parseInt(y.Tot_Failures);
+								tot_upd = tot_upd + parseInt(y.Tot_Updates);
+								tot_new = tot_new + parseInt(y.Tot_Inserts);
+								durH = durH + d3.round(Number(y.Tot_Duration_Hrs),2);
 
+								email = email +1;
+							}
+						})//x.emails.forEach ( function(y) 
+						
+					});//BIGDATA.forEach(function (x)
+					//var strE = eval (d);
+					var datarow = { "File_Layouts" : d,
+									"Category" : d.substring(0,3),
+									"Tot_Records" :  tot_rec,
+									"Tot_Inserts" : tot_new,
+									"Tot_Updates" : tot_upd,
+									"Tot_Failures" : tot_err,
+									"Tot_Duration_Hrs" : durH,
+									"tot_emails" : email,
+									"failPct" : Number(tot_err/tot_rec)
+									}
+					BarChartData.push(datarow);
+				}//if (d != "") 
+			})//arrFileLayout.forEach( function(d) {
+	}//if (typeof(strFile) == "string") {
+	
 	var datarow = {
 						"Tot_Records" :  Summ_Recs,
 						"Tot_Inserts" : Summ_New,
@@ -122,6 +157,8 @@ function buildSummaryData () {
 		d3.select("#Sdemail").text("");
 		
 	}
+	//console.log("BarChartData");
+	//console.log(BarChartData);
 	LineChartData();
 	
 }
