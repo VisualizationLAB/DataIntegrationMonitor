@@ -1,7 +1,7 @@
 // Summary ANNUAl TREND CHART
 function LineChartData(){
 
-console.log("allDays");
+//console.log("allDays");
 lineData = [];
 
 DateArr = d3.nest()
@@ -13,8 +13,12 @@ DateArrCumm = d3.nest()
 			.key(function(d) { return d.day; })
 			.rollup(function(d) {return 0;})
 			.map(allDays);
-			
+
+
+
+//////////////////////////////////////
 var finalCnt = 0;
+
 
 for(var y in DateArr) {
 	for (var z in dataBIG) {
@@ -33,14 +37,15 @@ for(var y in DateArr) {
 		}
 	lineData.push(datarow);
 	}
-console.log(DateArr);
-console.log(DateArrCumm);
-console.log(lineData);
+//console.log(DateArr);
+//console.log(DateArrCumm);
+//console.log(lineData);
 
 d3.selectAll(".lineChart").remove();
+var scaleDown = 0.5;
 var margin = {top: 20, right: 60, bottom: 20, left: 30},
-	width = widthLine - margin.left - margin.right,
-    height = heightLine - margin.top - margin.bottom;
+	width = (widthLine - margin.left - margin.right) * scaleDown,
+    height = (heightLine - margin.top - margin.bottom) * scaleDown;
 
 var parseDate = d3.time.format("%Y%m%d").parse;
 
@@ -77,8 +82,10 @@ var tip = d3.tip()
 var svg = d3.select("#DivlineChart1")
 	.append("svg")
 	.attr("class" , "lineChart")
-    .attr("width", (width + margin.left + margin.right) * 1.05)
-    .attr("height", height + margin.top + margin.bottom)
+    //.attr("width", (width + margin.left + margin.right) * 1.05)
+	.attr("width", width + margin.left + margin.right)
+    //.attr("height", height + margin.top + margin.bottom)
+	.attr("height", height+ margin.top + margin.bottom)
   .append("g")
     .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 	
@@ -143,7 +150,7 @@ var objCalendar_g_children = objCalendar_g[0].children;
 		var objLegend_g = objLegend.children;
 		for(var i =0; i < objLegend_g.length; i++ ) {
 			if(objLegend_g[i].children[0].id == ClassNameSelected) {
-			console.log(objLegend_g[i].children[0].id)
+			//console.log(objLegend_g[i].children[0].id)
 			objLegend_g[i].children[0].style.outline = "solid";
 			objLegend_g[i].children[0].style.outlineColor  = "red";
 			objLegend_g[i].children[0].style.outlineWidth = "1px";
@@ -153,7 +160,8 @@ var objCalendar_g_children = objCalendar_g[0].children;
 		buildSelectData(buildDataview (d.date, ""),"","");})
    .on('mouseout', function(d){
 	  
-		this.style.fill = "rgba(0,0,255,0.9)";
+		//this.style.fill = "rgba(0,0,255,0.9)";
+		this.style.fill = "steelblue";
 		for(var i =0; i < objCalendar_g_children.length; i++ ) {
 			if (objCalendar_g_children[i].id == buildDataview(d.date, "")) {
 				objCalendar_g_children[i].style.outline = "";
@@ -176,4 +184,6 @@ var objCalendar_g_children = objCalendar_g[0].children;
 		
 rect.append("title")
 	.text(function(d) {return document.getElementById(select_1).textContent + " - " + buildDataview (d.date, "") + ": " + addCommas(d.Cnt);});
+	
+
 }
