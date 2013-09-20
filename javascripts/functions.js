@@ -6,6 +6,7 @@
 //5. buildDataview()
 //6. addCommas()
 //7. type()
+//8. getCatDesc()
 
 
 function type(d) {
@@ -101,6 +102,8 @@ function mouseOver(Ind) {
 			d3.selectAll("svg").remove();
 			d3.selectAll(".svgContainer").remove();
 			drawCalender(select_1, "1");
+			//redrawFileBarChart();
+			buildFileBarChart();
 			
 }
 
@@ -193,4 +196,35 @@ else strDateX =  curr_year + "-" + curr_month + "-" + curr_date;
 //console.log("strDate")
 //console.log(strDateX)
 return strDateX;
+}
+
+// get full decription of category
+
+function getCatDesc (val) 
+{
+	switch (val)
+	{															
+		case "eli":
+			fileClass = "Eligibility"
+			break;
+		case "pro":
+			fileClass = "Provider"
+			break;
+		case "ceg":
+			fileClass = "CEG"
+			break;
+		case "lab":
+			fileClass = "LAB"
+			break;
+		case "PHA":
+			fileClass = "Rx Claims"
+			break;
+		case "CLA":
+			fileClass = "Claims"
+			break;
+		case "sys":
+			fileClass = "Sysuser"
+			break;															
+	}
+	return fileClass;
 }
