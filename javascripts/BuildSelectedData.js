@@ -74,6 +74,7 @@ function buildSelectData (strDt, StrClass, dtNm) {
 					}); // email loop
 
 				// for each file layout if there are multiple emails, below code rolls up the error messages into distinct error types
+				// THIS WILL NOT GIVE ACCURATE RESULTS FOR CASES WHEN "MemberNotFound" and "InsuredMemberNotFound" BOTH ARE PRESENT IN THE ERRORS
 					if(err_msg.length > 0) {
 						var arrErr = err_unique.split("|");
 						arrErr.forEach(function(d) {
@@ -114,28 +115,14 @@ function buildSelectData (strDt, StrClass, dtNm) {
 				}
 
 				});
-			}//
-			////////////////////////////////////////////////
-			if (typeof(d.File_Layouts) == "string") 
-			{ 
-			var strFilString = d.File_Layouts;
-			strCurrFile = strFilString.split("|");
-			strCurrFile.forEach (function(d) {
-				if (strFile.indexOf(d) == -1 && (d !="") ) strFile = strFile + d + "|";
-				});
-			}
-			if (typeof(strFile) == "string") {
-				var arrFileLayout = strFile.split("|");
-				arrFileLayout.forEach( function(d) {
-				if (d != "") fileLayout.push(d);
-					})
-			}
+			}//if (typeof(d.File_Layouts) == "string") 
+			
 			
 		if (typeof(d.Error_Msgs) == "string" && d.Error_Msgs != "") 
 		{ 
 			var strErrString = d.Error_Msgs;
-			console.log("d.Error_Msgs");
-			console.log(d.Error_Msgs);
+			//console.log("d.Error_Msgs");
+			//console.log(d.Error_Msgs);
 			strCurrErr = strErrString.split("|");
 			var strUniqueErr = "";
 			for (var i=0;i<strCurrErr.length;i++)
@@ -179,8 +166,8 @@ function buildSelectData (strDt, StrClass, dtNm) {
 				var tot_freq = 0;
 				
 				if (i%2 == 0 && UniqueArr[i] !="") { 
-					console.log("UniqueArr["+i+"]");
-					console.log(UniqueArr[i]);
+					//console.log("UniqueArr["+i+"]");
+					//console.log(UniqueArr[i]);
 					Emails.forEach (function (d) {
 						if( d.Err_Cnt >0 ) {
 						 d.Error_Msgs.forEach (function (x) {
@@ -196,7 +183,7 @@ function buildSelectData (strDt, StrClass, dtNm) {
 								"Tot_Failures" : parseInt(CurrErrCnt),
 								"tot_emails" : tot_freq
 							};
-					console.log(datarow);
+					//console.log(datarow);
 					ErrArr.push(datarow);
 				}//(i%2 == 0 && strCurrErr[i] !="") 
 			}// for (var i=0;i<strCurrErr.length;i++)
@@ -212,10 +199,7 @@ function buildSelectData (strDt, StrClass, dtNm) {
 						"Tot_Duration_Secs" : Number(d.Tot_Duration_Secs),
 						"Tot_Duration_Hrs" : Number(d.Tot_Duration_Hrs),
 						
-						"File_Layouts" : fileLayout.length,
-						
-						"File_Layouts2" : parseInt(d.File_Cnt),
-						"Files" : fileLayout,
+						"File_Layouts" : parseInt(d.File_Cnt),
 						"Files2" : fileLayout2,
 						"emails": d.emails,
 						"tot_emails" : parseInt(d.tot_emails),
@@ -268,5 +252,6 @@ function buildSelectData (strDt, StrClass, dtNm) {
 		d3.select("#demail").text("000");
 		
 	}
-	buildDataTable();
+	//buildDataTable();
+	buildFileBarSelectedDataChart();
 }
