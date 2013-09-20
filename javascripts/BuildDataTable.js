@@ -4,6 +4,21 @@ function buildDataTable(){
 	d3.selectAll(".fileListDiv").remove();
 	d3.selectAll(".fileDataDiv").remove();
 	d3.selectAll(".errDataDiv").remove();
+	
+	//d3.selectAll(".SummDataDiv").remove();
+	console.log("BarChartData");
+	console.log(BarChartData);
+	Bar_filterCat = d3.nest()
+			.key(function(d) { return d.File_Layouts; })
+			.rollup(function(d) { 
+									var dataVal = getData(select_1,parseInt(d[0].Tot_Records),parseInt(d[0].Tot_Failures),parseInt(d[0].Tot_Inserts),parseInt(d[0].Tot_Updates),Number(d[0].Tot_Duration_Hrs),0,0,parseInt(d[0].tot_emails));
+									return dataVal;
+								})
+			.map(BarChartData);
+			
+	console.log("Bar_filterCat");
+	console.log(Bar_filterCat);
+	
 	d3.select(".fileList")
 		.append("div")
 			.attr("class", "fileListDiv")
