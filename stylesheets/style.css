@@ -19,11 +19,13 @@ body {
 }
 
 .bar {
+  fill:steelblue;
   //fill: orange;
   //fill: rgba(179,179,179,0.5);
   //fill: rgba(51, 102, 153,.5)
   //fill: aliceblue;
-  fill: rgba(0,0,255,0.9)
+ //fill: rgba(0,0,255,0.9)
+	
 }
 
 .bar:hover {
@@ -258,3 +260,20 @@ font-size: 4px;
 .q1-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
 .q0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
 .Nq0-11.active {outline-width:1px;	outline-style:solid;outline-color:black;}
+
+.SummDataDiv {
+fill:rgba(179,179,179,0.2);
+background-color: rgba(179,179,179,0.1);
+}
+
+.SummDataFile {
+fill:rgba(179,179,179,0.2);
+background-color: rgba(179,179,179,0.1);
+}
+.DailyDataFile {
+background-color: rgba(179,179,179,0.1);
+}
+
+.DailyDataDiv {
+background-color: rgba(179,179,179,0.1);
+}
