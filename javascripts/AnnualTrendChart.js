@@ -175,7 +175,7 @@ var objCalendar_g_children = objCalendar_g[0].children;
    .on('mouseout', function(d){
 	  
 		//this.style.fill = "rgba(0,0,255,0.9)";
-		this.style.fill = "slategray";
+		this.style.fill = "steelblue";
 		for(var i =0; i < objCalendar_g_children.length; i++ ) {
 			if (objCalendar_g_children[i].id == buildDataview(d.date, "")) {
 				objCalendar_g_children[i].style.outline = "";
