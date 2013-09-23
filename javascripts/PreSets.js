@@ -51,10 +51,14 @@ var DateArr = [];
 var DateArrCumm = [];
 var lineData = [];
 
-var BarChartData = [];
-var BarChartData_filterCat = [];
-var BarChartDataSelect = [];
-var BarChartSelect_filterCat = [];
+var BarChartData = [];// Total data File Layouts
+var BarChartData_filterCat = []; // Total data File Layouts Category
+
+var BarChartDataSelect = []; // daily data File Layouts
+var BarChartSelect_filterCat = []; // daily data File Layouts Category
+
+var BarErrChartData = [];// Total data Error Types
+var BarErrChartDataSelect = [];// Daily data Error Types
 
 var selectedDate = ""
 var selectedDateLast = ""
