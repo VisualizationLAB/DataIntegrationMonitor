@@ -19,9 +19,9 @@ function buildSelectData (strDt, StrClass, dtNm) {
 	var strFileErrCnt = "";
 
 	var errMsgs = [];
-	var errMsgsCnt = []
+	//var errMsgsCnt = []
 	var fileLayout = [];
-	var fileLayout2 = [];
+	//var fileLayout2 = [];
 	var ErrArr = [];
 	
 	BIGDATA.forEach(function (d) {
@@ -66,36 +66,52 @@ function buildSelectData (strDt, StrClass, dtNm) {
 					
 							if (parseInt(d.Err_Cnt) > 0) {
 								d.Error_Msgs.forEach(function(d) {				
-									if (err_unique.indexOf(d.Error_Msgs) == -1) err_unique = err_unique + d.Error_Msgs + "|";
-										err_msg.push(d);
+									if ( d.Error_Msgs == "InsuredMemberNotFound") 
+									{
+										if(err_unique.indexOf(d.Error_Msgs) == -1) 
+										{
+											err_unique = err_unique + d.Error_Msgs + "|";
+											err_msg.push(d);
+										}
+									}
+									else 
+									{
+										if(err_unique.indexOf(d.Error_Msgs) == -1)
+										{ 
+											err_unique = err_unique + d.Error_Msgs + "|";
+											err_msg.push(d);
+										}
+									}
+										
 								});
 							}
 						}
 					}); // email loop
 
 				// for each file layout if there are multiple emails, below code rolls up the error messages into distinct error types
-				// THIS WILL NOT GIVE ACCURATE RESULTS FOR CASES WHEN "MemberNotFound" and "InsuredMemberNotFound" BOTH ARE PRESENT IN THE ERRORS
 					if(err_msg.length > 0) {
 						var arrErr = err_unique.split("|");
-						arrErr.forEach(function(d) {
-							if (d != "") {
-								var currErr = d;
+						arrErr.forEach(function(x) {
+							if (x != "") {
+								var currErr = x;
 								var currVal = 0;
-								err_msg.forEach ( function(d) {
+								var currCnt = 0;
+								err_msg.forEach ( function(y) {
 									//console.log(d);
-									if(d.Error_Msgs == currErr) {
-										currVal = currVal + parseInt(d.Tot_Failures);
+									if(y.Error_Msgs == currErr) {
+										currVal = currVal + parseInt(y.Tot_Failures);
+										currCnt = currCnt +1;
 									}
-								})
+								})//err_msg.forEach
 					
 								var datarow = {"Error_Msgs" : currErr,
-								"Tot_Failures" : parseInt(currVal)
-									};
+												"Tot_Failures" : parseInt(currVal),
+												"tot_emails": currCnt};
 								err_msg_roll_up.push(datarow);
-							}
-						});
+							}//if (x != "")
+						});//arrErr.forEach(function(x)
 					
-					}
+					} //if(err_msg.length > 0)
 					
 					var datarow = {
 				
@@ -107,81 +123,65 @@ function buildSelectData (strDt, StrClass, dtNm) {
 						"File_Layouts" : currFileLayout,
 						"tot_emails" : parseInt(count_emails),
 						"Error_Msgs" : err_msg_roll_up,
-						"Errors_cnt" : parseInt(err_msg_roll_up.length),
-						"Error_Msgs2" : err_msg,
-						"Errors_cnt2" : parseInt(err_msg.length)
+						"Errors_cnt" : parseInt(err_msg_roll_up.length)
 					};
-					fileLayout2.push(datarow);
+					fileLayout.push(datarow);
 				}
 
 				});
 			}//if (typeof(d.File_Layouts) == "string") 
-			
-			
+				
 		if (typeof(d.Error_Msgs) == "string" && d.Error_Msgs != "") 
 		{ 
 			var strErrString = d.Error_Msgs;
-			//console.log("d.Error_Msgs");
-			//console.log(d.Error_Msgs);
 			strCurrErr = strErrString.split("|");
-			var strUniqueErr = "";
 			for (var i=0;i<strCurrErr.length;i++)
-			{
-				if (i%2 == 0 && strUniqueErr.indexOf(strCurrErr[i]) == -1) strUniqueErr = strUniqueErr + strCurrErr[i] +"|";
-			}
-			var UniqueArr = strUniqueErr.split("|");
-
-			var strErrString = d.Error_Msgs;
-			strCurrErr = strErrString.split("|");
-			
-			for (var i=0;i<strCurrErr.length;i++)
-				{
-				if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
-					{
-						strFileErr = strFileErr + strCurrErr[i] + "|";
-						
-					}
-				if ((i%2 == 0) && strCurrErr[i] != "")  strFileErrCnt = strFileErrCnt + strCurrErr[i] + "-" + strCurrErr[i+1] + "|";
-				}
-			//}
-			
-			if (typeof(strFileErr) == "string") {
-				var arrErr = strFileErr.split("|");
-				arrErr.forEach( function(d) {
-				if (d != "") errMsgs.push(d);
-					})
-				}
-				
-			if (typeof(strFileErrCnt) == "string") {
-				var arrErrCnt = strFileErrCnt.split("|");
-				arrErrCnt.forEach( function(d) {
-				if (d != "") errMsgsCnt.push(d);
-					})
-				}
-				
-			for (var i=0;i<UniqueArr.length;i++)
 			{
 				
 				var CurrErrCnt = 0;
 				var tot_freq = 0;
+				var tot_emails = 0;
+				var fileCats = "";
+				var fileCatCnt = 0;
+				var fileLayouts = "";
+				var fileLayoutCnt = 0;
 				
-				if (i%2 == 0 && UniqueArr[i] !="") { 
+				if (strCurrErr[i] !="") { 
 					//console.log("UniqueArr["+i+"]");
 					//console.log(UniqueArr[i]);
-					Emails.forEach (function (d) {
-						if( d.Err_Cnt >0 ) {
-						 d.Error_Msgs.forEach (function (x) {
-							if(UniqueArr[i] == x.Error_Msgs) {
+					fileLayout.forEach (function (y) {
+						//if( y.Err_Cnt >0 ) {
+						if( y.Errors_cnt >0 ) {
+						 y.Error_Msgs.forEach (function (x) {
+							if(strCurrErr[i] == x.Error_Msgs) {
 								CurrErrCnt = CurrErrCnt + parseInt(x.Tot_Failures);
 								tot_freq = tot_freq +1;
+								tot_emails = tot_emails + parseInt(x.tot_emails);
+								if(fileLayouts.indexOf(y.File_Layouts) ==  -1) fileLayouts =  fileLayouts +y.File_Layouts +"|";
+								var strCat = y.File_Layouts;
+								var strCatAbbr = strCat.substring(0,3);
+								var strCatX = getCatDesc(strCatAbbr);
+								if(fileCats.indexOf(strCatX) == -1) fileCats = fileCats +strCatX+ "|";
 							}//if(strCurrErr[i] == x.Error_Msgs)
-						 }); //  end of d.Error_Msgs.forEach 
-						}//if( d.Err_Cnt >0 )
-					});//Emails.forEach
-				
-					var datarow = {"Error_Msgs": strCurrErr[i],
-								"Tot_Failures" : parseInt(CurrErrCnt),
-								"tot_emails" : tot_freq
+						 }); //  end of y.Error_Msgs.forEach 
+						}//if( y.Err_Cnt >0 )
+					});//fileLayout.forEach
+					
+					var arr = fileLayouts.split("|");
+					var FileCnt = arr.length;
+					
+					var arr = fileCats.split("|");
+					var FileCatCnt = arr.length;
+					
+					var datarow = {
+									"Error_Msgs" : strCurrErr[i],
+									"Tot_Failures" : parseInt(CurrErrCnt),
+									"tot_emails" : parseInt(tot_emails),
+									"tot_freq" : tot_freq,
+									"File_Cnt" : parseInt(FileCnt)-1,
+									"FileLayouts": fileLayouts,
+									"FileCat_Cnt" : parseInt(FileCatCnt)-1,
+									"FileCats" : fileCats
 							};
 					//console.log(datarow);
 					ErrArr.push(datarow);
@@ -199,16 +199,16 @@ function buildSelectData (strDt, StrClass, dtNm) {
 						"Tot_Duration_Secs" : Number(d.Tot_Duration_Secs),
 						"Tot_Duration_Hrs" : Number(d.Tot_Duration_Hrs),
 						
-						"File_Layouts" : parseInt(d.File_Cnt),
-						"Files2" : fileLayout2,
-						"emails": d.emails,
-						"tot_emails" : parseInt(d.tot_emails),
-						"tot_unique_emails" : parseInt(d.tot_unique_emails),
+						"File_Layouts" : parseInt(d.File_Cnt), // count of File Layouts //Used to drive Header
+						"Files" : fileLayout, // contains the summary of all File Data // NOT USED -YET
+						"emails": d.emails,//contains data for each email // DRIVES BAR CHARTS
+						//"tot_emails" : parseInt(d.tot_emails), //NOT USED
+						"tot_unique_emails" : parseInt(d.tot_unique_emails), //Used to drive Header
 						
-						"Errors" : errMsgs,
-						"Errors_cnt" : errMsgsCnt,
-						"Error_Msgs" : errMsgs.length,
-						"Error_Arr": ErrArr
+						"Errors" : ErrArr, // List of Error msgs on selected day
+						//"Errors_cnt" : errMsgsCnt,
+						"Error_Msgs" : ErrArr.length //Used to drive Header
+						//"Error_Arr": ErrArr
 						
 						
 					}
@@ -216,8 +216,10 @@ function buildSelectData (strDt, StrClass, dtNm) {
 			SelectedData.push(datarow);
 			
 			
-		}
-	})
+		}//if (strDt == d.Date)
+	})//BIGDATA.forEach(function (d) {
+	
+	
 	console.log("SelectedData");
 	console.log(SelectedData);
 	if (SelectedData.length > 0 ) 
