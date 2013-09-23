@@ -42,6 +42,7 @@ for(var y in DateArr) {
 //console.log(lineData);
 
 d3.selectAll(".lineChart").remove();
+d3.selectAll(".TrendChart").remove();
 var scaleDown = 0.5;
 var margin = {top: 20, right: 60, bottom: 20, left: 30},
 	width = (widthLine - margin.left - margin.right) * scaleDown,
@@ -79,7 +80,20 @@ var tip = d3.tip()
   })	
   
 
-var svg = d3.select("#DivlineChart1")
+d3.select("#DivlineChart1")
+	.append("table")
+	.attr("border" , borderT)
+	.attr("class" , "TrendChart")
+	.append("tr")
+	.append("td")
+	.attr("align", "center")
+	.text("ANNUAL TREND BAR CHART FOR " + document.getElementById(select_1).textContent)
+	.attr("style", "color:steelblue;font-size:12px;align:center;font-weight:bold;")
+	
+var svg = d3.select(".TrendChart")
+	.append("tr")
+	.append("td")
+	.attr("align", "center")
 	.append("svg")
 	.attr("class" , "lineChart")
     //.attr("width", (width + margin.left + margin.right) * 1.05)
@@ -107,11 +121,11 @@ svg.append("g")
       .attr("dy", ".71em")
       .style("text-anchor", "end");
 
-svg.append("text")
+/*svg.append("text")
         .attr("x", (width / 2))             
 		.attr("y", 0 - (height/30))
         .attr("text-anchor", "middle") 
-        .text("ANNUAL TREND BAR CHART FOR " + document.getElementById(select_1).textContent);
+        .text("ANNUAL TREND BAR CHART FOR " + document.getElementById(select_1).textContent);*/
 	
 var objCalendar = d3.select(".RdYlGn").selectAll(".rect")[0].parentNode;
 var objCalendar_g = objCalendar.children;
@@ -161,7 +175,7 @@ var objCalendar_g_children = objCalendar_g[0].children;
    .on('mouseout', function(d){
 	  
 		//this.style.fill = "rgba(0,0,255,0.9)";
-		this.style.fill = "steelblue";
+		this.style.fill = "slategray";
 		for(var i =0; i < objCalendar_g_children.length; i++ ) {
 			if (objCalendar_g_children[i].id == buildDataview(d.date, "")) {
 				objCalendar_g_children[i].style.outline = "";
