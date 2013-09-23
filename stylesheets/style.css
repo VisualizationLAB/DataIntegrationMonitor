@@ -19,8 +19,8 @@ body {
 }
 
 .bar {
-  fill:steelblue;
-  //fill: orange;
+  //fill:steelblue;
+  fill: slategray;
   //fill: rgba(179,179,179,0.5);
   //fill: rgba(51, 102, 153,.5)
   //fill: aliceblue;
@@ -263,17 +263,28 @@ font-size: 4px;
 
 .SummDataDiv {
 fill:rgba(179,179,179,0.2);
-background-color: rgba(179,179,179,0.1);
+//background-color: rgba(179,179,179,0.1);
 }
 
 .SummDataFile {
 fill:rgba(179,179,179,0.2);
-background-color: rgba(179,179,179,0.1);
+//background-color: rgba(179,179,179,0.1);
 }
 .DailyDataFile {
-background-color: rgba(179,179,179,0.1);
+//background-color: rgba(179,179,179,0.1);
+//background-color: AliceBlue;
 }
 
 .DailyDataDiv {
-background-color: rgba(179,179,179,0.1);
+//background-color: AliceBlue;
 }
+
+.errDataDailyROW2 {
+//background-color: AliceBlue;
+}
+.lineChart{
+background-color: rgba(179,179,179,0.2);
+//background-color: steelblue;
+//background-color: AliceBlue
+}
+
