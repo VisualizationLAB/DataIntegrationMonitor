@@ -477,9 +477,9 @@ var rect = barsContainer.selectAll("rect").data(data).enter().append("rect")
   
   .attr('stroke', 'white')
   //Chartreuse
-  .attr('fill', function () { if(strC == ".DailyDataFile" || strC == ".DailyDataDiv" || strC == ".errDataDaily") {return 'Chartreuse'} else {return 'steelblue'};})
+  .attr('fill', function () { if(strC == ".DailyDataFile" || strC == ".DailyDataDiv" || strC == ".errDataDaily") {return 'steelblue'} else {return 'steelblue'};})
   .on('mouseover', function(){ this.style.fill = 'red'; return;} )
- .on('mouseout', function(){if(strC == ".DailyDataFile" || strC == ".DailyDataDiv" || strC == ".errDataDaily") {this.style.fill = 'Chartreuse'} else {this.style.fill = 'steelblue'};});
+ .on('mouseout', function(){if(strC == ".DailyDataFile" || strC == ".DailyDataDiv" || strC == ".errDataDaily") {this.style.fill = 'steelblue'} else {this.style.fill = 'steelblue'};});
  
 // bar value labels
 barsContainer.selectAll("text").data(data).enter().append("text")
