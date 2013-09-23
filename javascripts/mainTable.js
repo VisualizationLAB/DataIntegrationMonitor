@@ -124,7 +124,7 @@ d3.select(".theatre")
   
  d3.selectAll(".dataFile_err")
 	.append("td")
-	.attr("width" , (widthBarChart))
+	//.attr("width" , (widthBarChart))
     .attr("class", "SummDataFileTD")
 	.attr("valign", "top")
 	.attr("align", "right")
@@ -205,10 +205,12 @@ d3.select(".detailMiddle")
 			.attr("border", borderT)
 				.append("tr")
 					.append("td")
-						.text("TOTAL")
-						.attr("class", "SummDataDiv")
-						.attr("valign", "top")
-						.attr("align", "left");
+						//.append("svg")
+							//.append("text", "TOTAL")
+							//.text("TOTALS")
+							.attr("class", "SummDataDiv")
+							.attr("valign", "top")
+							.attr("align", "left");
 
 d3.select(".summaryDetail")
   .append("td")
@@ -244,6 +246,7 @@ d3.select(".summaryDetail")
 	.attr("align", "right")
 	.append("div")
 	.attr("class" , "errDataDiv");*/
+	
 
 
  d3.selectAll(".dataFile_err")
@@ -260,6 +263,36 @@ d3.select(".summaryDetail")
 					.attr("class", "DailyDataFile")
 					.attr("valign", "top")
 					.attr("align", "left");
+					
+/*d3.selectAll(".dataFile_err")
+	.append("td")
+	//.attr("width" , (widthBarChart))
+    .attr("class", "errDataDivTD")
+	.attr("valign", "top")
+	.attr("align", "left");
+
+d3.selectAll(".errDataDivT").remove();
+d3.selectAll(".errDataDiv").remove();
+d3.selectAll(".errDataDivC").remove();*/
+
+/*d3.select(".errDataDivTD")
+		.append("table")
+		.attr("class", "errDataDivT")
+		.attr("border", borderT)
+			.append("tr")
+				.append("td")
+					.text("ERRORS")
+					.attr("class", "errDataDiv")
+					.attr("valign", "top")
+					.attr("align", "right");			
+d3.select(".errDataDivT")
+  .append("tr")
+				.append("td")
+					.text("ERRORS")
+					.attr("class", "errDataDaily")
+					.attr("valign", "top")
+					.attr("align", "right");	*/		
+
 
 //// _________drawing the DETAILS SECTION__________________________//
 mainTable.append("tr")
