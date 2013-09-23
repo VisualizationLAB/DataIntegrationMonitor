@@ -7,6 +7,7 @@
 //6. addCommas()
 //7. type()
 //8. getCatDesc()
+//9. getErrData()
 
 
 function type(d) {
@@ -92,6 +93,37 @@ case "durH":
 return vData;
 }
 
+function getErrData(val,failures,file_cnt,emails) {
+switch (val)
+{
+case "tot":
+  vData = failures
+  break;
+case "err":
+  vData = failures
+  break;
+case "new":
+  vData = failures
+  break;
+case "upd":
+  vData = failures
+  break;
+case "durH":
+  vData = failures
+  break;
+ case "fileT":
+  vData = file_cnt
+  break;
+ case "errT":
+  vData = failures
+  break;
+ case "email":
+  vData = emails
+  break;
+}
+return vData;
+}
+
 function mouseOver(Ind) {
 			select_1 = Ind;
 			var newSelecteddate = selectedDate;
@@ -104,7 +136,9 @@ function mouseOver(Ind) {
 			drawCalender(select_1, "1");
 			//redrawFileBarChart();
 			buildFileBarChart();
-			
+			buildSelectData(selectedDate, "", "");
+			buildFileBarSelectedDataChart();
+			document.getElementById(selectedDate).focus();
 }
 
 
