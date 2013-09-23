@@ -15,8 +15,12 @@ function buildSummaryData () {
 	
 	var strFile = "";
 	var strFileErr = "";
+	var strFileErrALL = "";
 	SummaryData = [];
 	var errMsgs = [];
+	//var errMsgsALL_nonunique= [];
+	//var errMsgTree = [];
+	
 	var fileLayout = [];
 	
 	//console.log(BIGDATA);
@@ -39,31 +43,33 @@ function buildSummaryData () {
 			strCurrFile.forEach (function(d) {
 				if (strFile.indexOf(d) == -1 && (d !="") ) strFile = strFile + d + "|";
 			});
-		}
-		if (typeof(d.Error_Msgs) == "string") 
+		}//if (typeof(d.File_Layouts) == "string") 
+		
+		if (typeof(d.Error_Msgs) == "string" &&  d.Error_Msgs != "") 
 		{ 
 			var strErrString = d.Error_Msgs;
+			//console.log(d.Date + ":" + d.Error_Msgs);
 			strCurrErr = strErrString.split("|");
-			
-			for (var i=0;i<strCurrErr.length;i++)
-			{
-				if (strFileErr.indexOf(strCurrErr[i]) == -1 && (i%2 == 0) ) 
-					{
-						strFileErr = strFileErr + strCurrErr[i] + "|";
-					}
-			}
-		}
+			strCurrErr.forEach ( function (x) {
+				if ( x == "InsuredMemberNotFound")
+				{
+					if (strFileErr.indexOf(x) == -1)  strFileErr = strFileErr + x + "|";
+				}
+				else
+				{
+					if (strFileErr.indexOf(x) == -1)  strFileErr = strFileErr + x + "|";
+				}
+				/*var datarow = { "Error_Msgs" : x,
+									"Date" : d.Date};
+				errMsgsALL_nonunique.push(datarow);*/
+			}); //strCurrErr.forEach ( function (x)
+		} //if (typeof(d.Error_Msgs) == "string" &&  d.Error_Msgs != "")
+
 		
-		original_error = d.Error_Msgs;
+		//original_error = d.Error_Msgs;
 	})//BIGDATA.forEach(function (d)
 	
-	if (typeof(strFileErr) == "string") {
-
-		var arrErr = strFileErr.split("|");
-		arrErr.forEach( function(d) {
-				if (d != "") errMsgs.push(d);
-			})
-	}
+	// FILE LAYOUT PROCESSING
 	
 	var CatStr = "";
 	if (typeof(strFile) == "string") {
@@ -71,16 +77,17 @@ function buildSummaryData () {
 		arrFileLayout.forEach( function(d) {
 				if (d != "") 
 				{
+					fileLayout.push(d);
+					
+					// BUILDING BarChartData - which drives the summary Bar Charts for File Layouts 
 					var tot_rec = 0;
 					var tot_upd = 0;
 					var tot_new = 0;
 					var tot_err = 0;
 					var durH = 0.00;
+					var errTypStr = "";
+					var errCnt = 0;
 					var email = 0;
-					
-					fileLayout.push(d);
-					
-					
 					BIGDATA.forEach(function (x) {
 						x.emails.forEach ( function(y) {
 							if ( y.File_Layouts == d) {
@@ -89,13 +96,33 @@ function buildSummaryData () {
 								tot_upd = tot_upd + parseInt(y.Tot_Updates);
 								tot_new = tot_new + parseInt(y.Tot_Inserts);
 								durH = durH + d3.round(Number(y.Tot_Duration_Hrs),2);
-
+								//var strErr = y.Error_Msgs;
+								//console.log(y);
+								//console.log(y.Error_Msgs);
+								if(y.Err_Cnt > 0) { 
+									y.Error_Msgs.forEach(function(f) { 
+										errTypStr = errTypStr + f.Error_Msgs +"|";
+										});//y.Error_Msgs.forEach(function(f) { 
+								}//if(y.Err_Cnt > 0) { 
 								email = email +1;
 							}
 						})//x.emails.forEach ( function(y) 
 						
 					});//BIGDATA.forEach(function (x)
 					//var strE = eval (d);
+					
+					var arr = errTypStr.split("|");
+					//console.log("arr");
+					//console.log(arr);
+					var uniqErrTyp = "";
+					arr.forEach(function(z) {
+						if(z != "") {
+						 var strZ = z;
+						 if (uniqErrTyp.indexOf(strZ) == -1) uniqErrTyp = uniqErrTyp + strZ +"|";
+						}
+					});
+					var uniqArr= uniqErrTyp.split("|");
+					errCnt = uniqArr.length-1;
 					var datarow = { "File_Layouts" : d,
 									"Category" : d.substring(0,3),
 									"Tot_Records" :  tot_rec,
@@ -104,12 +131,79 @@ function buildSummaryData () {
 									"Tot_Failures" : tot_err,
 									"Tot_Duration_Hrs" : durH,
 									"tot_emails" : email,
-									"failPct" : Number(tot_err/tot_rec)
+									"failPct" : Number(tot_err/tot_rec),
+									"Error_Msgs" : errCnt,
+									"ErrStr" : uniqErrTyp
 									}
 					BarChartData.push(datarow);
 				}//if (d != "") 
 			})//arrFileLayout.forEach( function(d) {
 	}//if (typeof(strFile) == "string") {
+	
+	// END OF FILE LAYOUT PROCESSING
+	
+	// START OF ERROR TYPE PROCESSING
+	if (typeof(strFileErr) == "string") {
+		var arrErr = strFileErr.split("|");
+		arrErr.forEach( function(d) {
+				if (d != "") 
+				{
+					var tot_recs = 0;
+					var tot_days = 0;
+					var strDays = ""
+					var tot_emails = 0;
+					var tot_filelayouts = 0;
+					var fileLayouts = ""
+					var totFileCats = 0;
+					var FileCats = "";
+					
+					BIGDATA.forEach(function (x) {
+						x.emails.forEach ( function(y) {
+						 if(y.Err_Cnt >0) {
+							y.Error_Msgs.forEach ( function(z) {
+								if(z.Error_Msgs == d ) {
+								 tot_recs = tot_recs + parseInt(z.Tot_Failures);
+								 tot_emails = tot_emails +1;
+								 if (strDays.indexOf(x.Date) ==  -1)  strDays = strDays + x.Date + "|";
+								 if (fileLayouts.indexOf(y.File_Layouts) ==  -1)  fileLayouts = fileLayouts + y.File_Layouts+ "|";
+								 //console.log("y.File_Layouts");
+								 //console.log(y.File_Layouts);
+								 var strCat = y.File_Layouts;
+								 var strCatAbbr = strCat.substring(0,3);
+								 var strCatX = getCatDesc(strCatAbbr);
+								 //console.log(typeof(strCat)+"|"+strCatAbbr + "|" + strCat +"|"+strCatX);
+								 if (FileCats.indexOf(strCatX) ==  -1)  FileCats = FileCats + getCatDesc(strCatX) + "|";
+								}//if(z.Error_Msgs == d )
+							})//y.Error_Msgs.forEach ( function(z) {
+						  }//if(y.Err_Cnt >0)
+						 })//x.emails.forEach (
+					})//BIGDATA.forEach(function (x)
+					
+					var arr = strDays.split("|");
+					var dayCnt = arr.length;
+					
+					var arr = fileLayouts.split("|");
+					var FileCnt = arr.length;
+					
+					var arr = FileCats.split("|");
+					var FileCatCnt = arr.length;
+					 
+					 var datarow = { "Error_Msgs" : d,
+									"Tot_Failures" : parseInt(tot_recs),
+									"Date" : strDays,
+									"tot_Days" : parseInt(dayCnt)-1,
+									"tot_emails" : parseInt(tot_emails),
+									"File_Cnt" : parseInt(FileCnt)-1,
+									"FileLayouts": fileLayouts,
+									"FileCat_Cnt" : parseInt(FileCatCnt)-1,
+									"FileCats" : FileCats
+						};
+					
+					errMsgs.push(datarow);
+				}//if (d != "") 
+			});//arrErr.forEach( function(d) {
+		}//if (typeof(strFileErr) == "string") {
+	// END OF ERROR TYPE PROCESSING
 	
 	var datarow = {
 						"Tot_Records" :  Summ_Recs,
@@ -118,16 +212,21 @@ function buildSummaryData () {
 						"Tot_Failures" : Summ_Err,
 						"Tot_Duration_Secs" : d3.round(Summ_Load_sec,2),
 						"Tot_Duration_Hrs" : d3.round(Summ_Load_hr,2),
-						"File_Layouts" : fileLayout.length,
-						"Error_Msgs" : errMsgs.length,
-						"Tot_days" : Summ_days-1,
-						"Tot_Err_days" :Summ_days_err-1,
-						"Files" : fileLayout,
-						"Errors" : errMsgs,
-						"tot_unique_emails" :  Summ_Email
-						
+						"Tot_days" : Summ_days-1, // count of total days
+						"Tot_Err_days" :Summ_days_err-1, // count of days when errors were found
+						"Files" : fileLayout, // LIST OF ALL UNIQUE FILE LAYOUTS
+						"File_Layouts" : fileLayout.length, // COUNT OF ALL UNIQUE FILE LAYOUTS
+						"Errors" : errMsgs, // TREE OF ALL UNIQUE ERROR TYPES
+						"ErrorsList" : strFileErr, // LIST OF ALL UNIQUE ERROR TYPES
+						"Error_Msgs" : errMsgs.length, // COUNT OF ALL UNIQUE ERROR TYPES
+						"tot_unique_emails" :  Summ_Email // count of unique emails
 					}
+					
 	SummaryData.push(datarow);
+	
+	// END OF CREATION OF SUMMARY DATA
+	
+	// START OF DISPLAY OF SUMMARY DATA
 	if (SummaryData.length > 0 ) 
 	{
 		SummaryData.forEach (function (d) {
@@ -157,8 +256,13 @@ function buildSummaryData () {
 		d3.select("#Sdemail").text("");
 		
 	}
+	// END OF DISPLAY OF SUMMARY DATA
+	
 	//console.log("BarChartData");
 	//console.log(BarChartData);
+	
+	console.log("SummaryData");
+	console.log(SummaryData);
 	LineChartData();
 	
 }
