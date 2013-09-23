@@ -19,8 +19,8 @@ body {
 }
 
 .bar {
-  //fill:steelblue;
-  fill: slategray;
+  fill:steelblue;
+  //fill: slategray;
   //fill: rgba(179,179,179,0.5);
   //fill: rgba(51, 102, 153,.5)
   //fill: aliceblue;
@@ -283,8 +283,9 @@ fill:rgba(179,179,179,0.2);
 //background-color: AliceBlue;
 }
 .lineChart{
-background-color: rgba(179,179,179,0.2);
+//background-color: rgba(179,179,179,0.2);
 //background-color: steelblue;
-//background-color: AliceBlue
+//background-color: AliceBlue;
+background-color: #FFF6E6;
 }
 
