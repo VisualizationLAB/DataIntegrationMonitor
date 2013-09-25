@@ -373,7 +373,7 @@ d3.select(".summ_row1").append("td")
 	.attr("align", "left")
 	.attr("class", "label1")
 	.attr("id", "email")
-	.text("EMAILS")
+	.text("DATA LOADS")
 	.on("mouseover", function(d) { d3.select(this).classed("active", true); mouseOver (this.id); return;})
 	.on("mouseout", function(d) { d3.select(this).classed("active", false); return;});
 	
