@@ -3,18 +3,57 @@
 
 function drawCalender(ind, caller) {
 
-	d3.selectAll("svgContainer").remove();
+	//console.log("caller");
+	//console.log(caller);
+	d3.selectAll(".svgContainer").remove();
+	d3.selectAll(".legend").remove();
+	//d3.selectAll("RdYlGn").remove();
+	//d3.selectAll(".RdYlGn").remove();
 	allDays = [];
 	var d = new Date();
+	var dataVal;
 
 	dataBIG = d3.nest()
 			.key(function(d) { return d.Date; })
 			.rollup(function(d) { 
-									var dataVal = getData(select_1,parseInt(d[0].Tot_Records),parseInt(d[0].Tot_Failures),parseInt(d[0].Tot_Inserts),parseInt(d[0].Tot_Updates),Number(d[0].Tot_Duration_Hrs),parseInt(d[0].File_Cnt),parseInt(d[0].Err_Cnt),parseInt(d[0].tot_unique_emails));
-									return dataVal;
+									if(caller == 0 || caller == 1) {
+										dataVal = getData(select_1,parseInt(d[0].Tot_Records),parseInt(d[0].Tot_Failures),parseInt(d[0].Tot_Inserts),parseInt(d[0].Tot_Updates),Number(d[0].Tot_Duration_Hrs),parseInt(d[0].File_Cnt),parseInt(d[0].Err_Cnt),parseInt(d[0].tot_unique_emails));
+										return dataVal;}
+									else {
+										switch(filterVar) {
+											case ".SummDataFile":
+												if(d[0].File_Layouts.indexOf(caller) != -1) {
+													dataVal = getData(select_1,parseInt(d[0].Tot_Records),parseInt(d[0].Tot_Failures),parseInt(d[0].Tot_Inserts),parseInt(d[0].Tot_Updates),Number(d[0].Tot_Duration_Hrs),parseInt(d[0].File_Cnt),parseInt(d[0].Err_Cnt),parseInt(d[0].tot_unique_emails));
+													return dataVal;
+												}
+												break;
+											case ".SummDataDiv":
+												//console.log("caller: " + caller);
+												//console.log(d[0].File_Layouts);
+												//console.log(d[0].File_Layouts.indexOf(caller) != -1);
+												if(d[0].File_Cat.indexOf(caller) != -1) {
+													dataVal = getData(select_1,parseInt(d[0].Tot_Records),parseInt(d[0].Tot_Failures),parseInt(d[0].Tot_Inserts),parseInt(d[0].Tot_Updates),Number(d[0].Tot_Duration_Hrs),parseInt(d[0].File_Cnt),parseInt(d[0].Err_Cnt),parseInt(d[0].tot_unique_emails));
+													return dataVal;
+												}
+												break;
+											case ".errDataDiv":
+												if(d[0].Error_Msgs.indexOf(caller) != -1) {
+													dataVal = getData(select_1,parseInt(d[0].Tot_Records),parseInt(d[0].Tot_Failures),parseInt(d[0].Tot_Inserts),parseInt(d[0].Tot_Updates),Number(d[0].Tot_Duration_Hrs),parseInt(d[0].File_Cnt),parseInt(d[0].Err_Cnt),parseInt(d[0].tot_unique_emails));
+													return dataVal;
+												}
+												break;
+										}//switch(caller) {
+										//else return 0;
+									}//if(caller == 0 || caller == 1)
 								})
 			.map(BIGDATA);
-	getDomainMax(select_1,"domainMax");
+			
+	console.log("dataBIG");
+	console.log(dataBIG);
+	
+	//console.log(d3.max(d3.values(dataBIG)));
+	//getDomainMax(select_1,"domainMax");
+	domainMax = d3.max(d3.values(dataBIG));
 	var color = d3.scale.quantize()
 					.domain([domainMin,domainMax])
 					.range(d3.range(arrayRange-1).map(function(d) { 
@@ -33,16 +72,22 @@ function drawCalender(ind, caller) {
 							));
 	var svg = d3.select(".C4").selectAll("svg")
 				.data(d3.range(calendarStart, calendarEnd))
-				.enter().append("tr")
+				.enter()
+					.append("tr")
 					.attr("class" , "svgContainer")
 					.append("td")
+					.attr("width", "100%")
+					.attr("colspan", 11)
+					//.attr("class" , "svgContainer")
+					//.attr("height", heightCalendar)
 					.append("svg")
 					.attr("width", widthCalendar)
 					.attr("height", heightCalendar)
 					.attr("class", "RdYlGn")
 					.append("g")
-						.attr("transform", "translate(" + ((width - cellSize * 60) / 2) + "," + (height - cellSize * 8 - 1) + ")");
-
+						//.attr("transform", "translate(" + ((width - cellSize * 60) / 2) + "," + (height - cellSize * 8 - 1) + ")");
+						//.attr("transform", "translate(180,40)");
+						.attr("transform", "translate(" + CalendarTransformX + "," + CalendarTransformY + ")");
 	var yYearLabel = cellSize * 3.5 - verticalCalendarOffset;
 	var xYearLabel = -6-horizontalCalendarOffset;
 
@@ -112,11 +157,36 @@ function drawCalender(ind, caller) {
 			.data(function(d) { return d3.time.months(new Date(d, 0, 1), new Date(d + 1, 0, 1)); })
 			.enter().append("text")
 			.attr("class", "monthTxt")
-			.attr("x", function(d) { return week(d) * cellSize+25-horizontalCalendarOffset; })
+			//.attr("x", function(d) { return week(d) * cellSize+25-horizontalCalendarOffset; })
+			.attr("x", function(d) { return (week(d) * cellSize+15)-horizontalCalendarOffset; })
 			.attr("y", -4-verticalCalendarOffset)
 			.attr("transform", "translate(0,0)")
 			.attr("style", "text-anchor:left;")
 			.text(month_name);
+	
+	svg.selectAll("text.weekDay")
+			.data(["Su","Mo","Tu","We","Th","Fr", "Sa"])
+			.enter().append("text")
+			.attr("class", "weekDayTxt")
+			//.attr("x", function(d) { return week(d) * cellSize+25-horizontalCalendarOffset; })
+			.attr("x", (cellSize * 42) + 4)
+			.attr("y", function(d,i) {
+					switch(screen.availWidth)
+					{
+						case 1366: // Laptop
+							return ((i-1) * cellSize) +2;//imp
+							break;
+						case 1280: // Monitor
+							return ((i-1) * cellSize) - 50;//imp
+							break;
+						//case 1280: // Projector
+							//var mainTableWidth = (4 * widthBarChart) + widthCalendar ;//imp
+							//break;
+					}					
+					})
+			.attr("transform", "translate(0,0)")
+			.attr("style", "text-anchor:left;font-size:9px;fill:grey;")
+			.text(function(d) {return d;});
 	
 	var ScaleArr = ["NA", "0" ];
 	var LScaleArr = ["NA","0"];
@@ -238,14 +308,25 @@ function drawCalender(ind, caller) {
 	}
 
 	function buildLegend () {
+		d3.selectAll(".legendT").remove();
 		var legend = d3.select(".legendC")
+				.append("table")
+				//.attr("width", "100%")
+				.attr("border" ,borderT)
+				.attr("class" ,"legendT")
+				.append("tr")
+				//.attr("width", "100%")
+				.append("td")
+				.attr("align", "right")
+				//.attr("width", "100%")
 				.append("svg")
 				.attr("class", "legend")
 				.attr("width", widthBarChart)
-				.attr("height", (cellSize * arrayRange) + 2 * cellSize )
+				.attr("height", (cellSize * arrayRange) + 4 * cellSize )
 				.selectAll("g")
 				.data(ScaleArr)
 				.enter().append("g")
+						//.attr("transform", function(d, i) { return "translate(120," + parseInt((i * 13) +3) +")"; });
 						.attr("transform", function(d, i) { return "translate(120," + parseInt((i * 13) +3) +")"; });
 						
 		legend.append("rect")
