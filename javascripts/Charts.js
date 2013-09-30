@@ -613,6 +613,7 @@ function drawCalender(ind, caller) {
 							}
 							
 							));
+	var formatYr = d3.time.format("%Y");
 	var svg = d3.select(".C4").selectAll("svg")
 				.data(d3.range(calendarStart, calendarEnd))
 				.enter()
@@ -627,6 +628,7 @@ function drawCalender(ind, caller) {
 					.attr("width", widthCalendar)
 					.attr("height", heightCalendar)
 					.attr("class", "RdYlGn")
+					.attr("id", function(d) {return d;})
 					.append("g")
 						//.attr("transform", "translate(" + ((width - cellSize * 60) / 2) + "," + (height - cellSize * 8 - 1) + ")");
 						//.attr("transform", "translate(180,40)");
@@ -1036,6 +1038,7 @@ d3.selectAll("svg")
 			.select(".errDataDailyC").remove();
 			
 if(select_1 == "err" || select_1 == "email" || select_1 == "fileT") {
+//if(select_1 == "err" || select_1 == "email" || select_1 == "fileT" || select_1 == "errT") {
 
 //d3.selectAll(".dataFile_err")
 d3.selectAll(".dataTableSumm")
@@ -1203,7 +1206,7 @@ d3.select(".DailyDataDivT")
 var data = d3.entries(BarDaily_filterCatGroup);
 modularBarCharts (data, ".DailyDataDiv" );
 
-if(select_1 == "err" || select_1 == "email" || select_1 == "fileT") barErrSelectedData ();
+if(select_1 == "err" || select_1 == "email" || select_1 == "fileT" || select_1 == "errT") barErrSelectedData ();
 else showDataTable();
 
 //DailyDataFileTD
@@ -1512,10 +1515,13 @@ svg.append("g")
         .attr("text-anchor", "middle") 
         .text("ANNUAL TREND BAR CHART FOR " + document.getElementById(select_1).textContent);*/
 	
-var objCalendar = d3.select(".RdYlGn").selectAll(".rect")[0].parentNode;
-var objCalendar_g = objCalendar.children;
-var objCalendar_g_children = objCalendar_g[0].children;
-		
+//var objCalendar = d3.select(".RdYlGn").selectAll(".rect")[0].parentNode;
+//var objCalendar_g = objCalendar.children;
+//var objCalendar_g_children = objCalendar_g[0].children;
+
+var getRightCal = document.getElementById(selectedYr);
+var objCalendar_g_children = getRightCal.children[0].children;
+	
  var rect = svg.selectAll(".bar")
       .data(lineData)
     .enter().append("rect")
@@ -1527,7 +1533,6 @@ var objCalendar_g_children = objCalendar_g[0].children;
       .attr("y", function(d) { return y(d.Cnt); })
       .attr("height", function(d) { return height - y(d.Cnt); })
 	  .on('mouseover', function(d) {
-	  
 		this.style.fill = "red";
 		for(var i =0; i < objCalendar_g_children.length; i++ ) {
 				objCalendar_g_children[i].style.outline = "";
