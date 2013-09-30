@@ -2,6 +2,10 @@ body {
   font: 10px sans-serif;
   shape-rendering: crispEdges;
 }
+.main {
+ shape-rendering: crispEdges;
+ overflow:auto;
+}
 
 #DivlineChart1.lineChart.text {
   color: red;
@@ -97,7 +101,8 @@ body {
    -webkit-font-smoothing: subpixel-antialiased;
    padding: 10px;
   // color: rgba(102, 102, 102,1); 
-  color: rgba(51, 102, 153,.5);
+  //color: rgba(51, 102, 153,.5);
+  color: steelblue;
    TEXT-ALIGN: CENTER;
     font-weight:bold;
 }
@@ -116,11 +121,11 @@ body {
   //color: rgba(51, 102, 153,1);
   color:rgba(179,179,179,1);
   stroke: red;
-  font-size:15px;
+  font-size:12px;
   //font-weight:bold;
 }
 .label1.active {
-  font-size:15px;
+  font-size:13px;
   -webkit-font-smoothing: subpixel-antialiased;
  //color:rgba(0,104,55,.3); 
  color: rgba(51, 102, 153,1);
@@ -129,32 +134,42 @@ body {
 .sub_title{
   //color: rgba(153, 153, 153,.7);
   //color: rgba(51, 102, 153,1);
-  color: blue;
+  color: steelblue;
   stroke: red;
   -webkit-font-smoothing: subpixel-antialiased;
-  font-size:14px;
+  font-size:12px;
   font-weight:bold;
+}
+.sub_titleFilter{
+  //color: rgba(153, 153, 153,.7);
+  //color: rgba(51, 102, 153,1);
+  color: red;
+  //stroke: red;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-size:12px;
+  //font-weight:bold;
 }
 .sub_titleL{
   //color: rgba(153, 153, 153,.7);
-  color: rgba(179,179,179,0.7);
-  stroke: red;
+  //color: rgba(179,179,179,0.7);
+  //stroke: red;
+  color: grey;
   -webkit-font-smoothing: subpixel-antialiased;
-  font-size:14px;
-  font-weight:bold;
+  font-size:12px;
+  //font-weight:bold;
 }
 #summ_row2 {
   //color: rgba(51, 102, 153,.7);
  // color: rgba(51, 102, 153,1);
  //color:rgba(179,179,179,1);
  color:white;
-  stroke: red;
+  //stroke: red;
   -webkit-font-smoothing: subpixel-antialiased;
-  font-size:40px;
+  font-size:18px;
 }
 .label2 {
 	color:rgba(179,179,179,1);
-	font-size:25px;
+	font-size:18px;
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 .summ_row4 {
@@ -180,7 +195,7 @@ cell-padding: 10;
 #currDate{
   //color: rgba(51, 102, 153,.7);
   color: rgba(51, 102, 153,1);
-  font-size:40px;
+  font-size:30px;
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
@@ -194,6 +209,18 @@ cell-padding: 10;
 
     /* POSITION */
     position:fixed;
+}
+
+#DATATABLE{
+   height: 100px;
+   border: none;
+   overflow: auto;
+}
+.exportDiv{
+height: 600px;
+width: 800px;
+border: none;
+overflow: auto;
 }
 
 .rect.text {
@@ -284,8 +311,80 @@ fill:rgba(179,179,179,0.2);
 }
 .lineChart{
 //background-color: rgba(179,179,179,0.2);
+background-color: white;
 //background-color: steelblue;
 //background-color: AliceBlue;
-background-color: #FFF6E6;
+//background-color: #FFF6E6;
+}
+.dataTableSumm{
+overflow: auto;
+//position:fixed;
+border: 5px;
+color: green;
+height: 400px;
+width: 230px;
+//height: 500px;
 }
 
+.button {
+	display: inline-block;
+	outline: none;
+	cursor: pointer;
+	text-align: center;
+	text-decoration: none;
+	font: 10px/100% Arial, Helvetica, sans-serif;
+	//padding: .5em 2em .55em;
+	padding: .1em .1em .1em;
+	text-shadow: 0 1px 1px rgba(0,0,0,.3);
+	//-webkit-border-radius: .5em; 
+	-webkit-border-radius: .0em; 
+	-moz-border-radius: .5em;
+	border-radius: .2em;
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,.2);
+	box-shadow: 0 1px 2px rgba(0,0,0,.2);
+}
+.button:hover {
+	text-decoration: none;
+}
+.button:active {
+	position: relative;
+	top: 1px;
+}
+
+::-webkit-scrollbar {
+      width: 3px;
+	  height: 3px;
+} /* this targets the default scrollbar (compulsory) */
+::-webkit-scrollbar-track {
+      //background-color: #b46868;
+	   background-color: lightgrey;
+} /* the new scrollbar will have a flat appearance with the set background color */
+::-webkit-scrollbar-thumb {
+      //background-color: rgba(0, 0, 0, 0.2);
+	  //background-color: steelblue;
+	  background-color: grey;
+} /* this will style the thumb, ignoring the track */
+::-webkit-scrollbar-button {
+      //background-color: #7c2929;
+	   //background-color: steelblue;
+	   background-color: grey;
+} /* optionally, you can style the top and the bottom buttons (left and right for horizontal bars) */
+::-webkit-scrollbar-corner {
+      background-color: black;
+} /* if both the vertical and the horizontal bars appear, then perhaps the right bottom corner also needs to be styled */
+
+/* PROGRESS  BAR */
+.progress-meter .background {
+  fill: #ccc;
+}
+
+.progress-meter .foreground {
+  fill: #000;
+}
+
+.progress-meter text {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+}
