@@ -8,6 +8,18 @@ function buildSelectData (strDt, StrClass, dtNm) {
 	d3.select("#currDate").text(displayDt);
 
 	selectedDate = strDt;
+	var previousYr = selectedYr;
+	selectedYr = selectedDate.substring(0,4);
+	
+	//console.log("selectedDate : " + selectedDate);
+	//console.log("selectedYr : " + selectedYr);
+	if(previousYr != selectedYr) 
+	{
+		buildSummaryData ();
+		LineChartData();
+		buildFileBarChart();
+	}
+	
 	try { document.getElementById(strDt).focus();
 	}
 	catch(err)
@@ -28,8 +40,8 @@ function buildSelectData (strDt, StrClass, dtNm) {
 		
 		if (strDt == d.Date) 
 		{
-			console.log("original Selected Data");
-			console.log(d);
+			//console.log("original Selected Data");
+			//console.log(d);
 			
 			if (typeof(d.File_Layouts) == "string") 
 			{ 
@@ -220,8 +232,8 @@ function buildSelectData (strDt, StrClass, dtNm) {
 	})//BIGDATA.forEach(function (d) {
 	
 	
-	console.log("SelectedData");
-	console.log(SelectedData);
+	//console.log("SelectedData");
+	//console.log(SelectedData);
 	if (SelectedData.length > 0 ) 
 	{
 		SelectedData.forEach (function (d) {
