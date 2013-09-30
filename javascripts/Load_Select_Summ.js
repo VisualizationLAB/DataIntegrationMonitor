@@ -179,6 +179,9 @@ console.log(BIGDATA);
 
 //alert(document.URL.indexOf("Calendar.html") >0);
 if(document.URL.indexOf("Calendar.html") >0){
+Presets();
+buildMainLayout();
+
 drawCalender(select_1, "0");
 buildSummaryData ();
 buildFileBarChart();
@@ -773,6 +776,7 @@ function buildSummaryData () {
 	
 }
 ///////////////////
+function Presets() {
 var width = screen.availWidth * 0.8,
 	height = screen.availHeight * .2,
    //cellSize = width * 0.013; // cell size
@@ -893,8 +897,10 @@ var day = d3.time.format("%w"),
     week = d3.time.format("%U"),
     percent = d3.format(".1%"),
     format = d3.time.format("%Y-%m-%d");
-	
+} // END OF PRESENTS FUNCTION
 ////////////////////////////////////////////////
+
+function buildMainLayout() {
 var mainTable = d3.select("body")
 		.attr("onload", "loadData()")
 		.append("table")
@@ -1431,4 +1437,4 @@ d3.select(".summary").append("tr")
 	.text("Note: Compatible with Google Chrome Browser Only")
 		.attr("style" , "color:grey;");
 		
-
+}// END OF BUILDMAINLAYOUT Function
