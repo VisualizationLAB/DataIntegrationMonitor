@@ -22,9 +22,11 @@ function buildSummaryData () {
 	//var errMsgTree = [];
 	
 	var fileLayout = [];
+	BarChartData = [];
 	
 	//console.log(BIGDATA);
 	BIGDATA.forEach(function (d) {
+	if(selectedYr == d.Year) {
 		if (! isNaN(d.Tot_Records)) Summ_Recs = Summ_Recs + parseInt(d.Tot_Records);
 		if (! isNaN(d.Tot_Failures)) Summ_Err = Summ_Err + parseInt(d.Tot_Failures);
 		if (! isNaN(d.Tot_Updates)) Summ_Upd = Summ_Upd + parseInt(d.Tot_Updates);
@@ -65,12 +67,14 @@ function buildSummaryData () {
 			}); //strCurrErr.forEach ( function (x)
 		} //if (typeof(d.Error_Msgs) == "string" &&  d.Error_Msgs != "")
 
-		
+		}//FOR CURRENT YEAR
+		//else { console.log( d.Date +"|"+ d.Year)}
 		//original_error = d.Error_Msgs;
 	})//BIGDATA.forEach(function (d)
 	
 	// FILE LAYOUT PROCESSING
-	
+	//console.log ("strFile")
+	//console.log (strFile)
 	var CatStr = "";
 	if (typeof(strFile) == "string") {
 		var arrFileLayout = strFile.split("|");
@@ -89,6 +93,9 @@ function buildSummaryData () {
 					var errCnt = 0;
 					var email = 0;
 					BIGDATA.forEach(function (x) {
+
+						if(selectedYr == x.Year) {
+						
 						x.emails.forEach ( function(y) {
 							if ( y.File_Layouts == d) {
 								tot_rec = tot_rec + parseInt(y.Tot_Records);
@@ -107,7 +114,7 @@ function buildSummaryData () {
 								email = email +1;
 							}
 						})//x.emails.forEach ( function(y) 
-						
+						}//if(selectedYr == x.Year) {
 					});//BIGDATA.forEach(function (x)
 					//var strE = eval (d);
 					
@@ -124,6 +131,7 @@ function buildSummaryData () {
 					var uniqArr= uniqErrTyp.split("|");
 					errCnt = uniqArr.length-1;
 					var datarow = { "File_Layouts" : d,
+									"Year" : selectedYr,
 									"Category" : d.substring(0,3),
 									"Tot_Records" :  tot_rec,
 									"Tot_Inserts" : tot_new,
@@ -139,6 +147,10 @@ function buildSummaryData () {
 				}//if (d != "") 
 			})//arrFileLayout.forEach( function(d) {
 	}//if (typeof(strFile) == "string") {
+	
+	//console.log("selectedYr2: " + selectedYr);
+	//console.log("BarChartData");
+	//console.log(BarChartData);
 	
 	// END OF FILE LAYOUT PROCESSING
 	
@@ -158,6 +170,7 @@ function buildSummaryData () {
 					var FileCats = "";
 					
 					BIGDATA.forEach(function (x) {
+						if(selectedYr == x.Year) {
 						x.emails.forEach ( function(y) {
 						 if(y.Err_Cnt >0) {
 							y.Error_Msgs.forEach ( function(z) {
@@ -177,6 +190,7 @@ function buildSummaryData () {
 							})//y.Error_Msgs.forEach ( function(z) {
 						  }//if(y.Err_Cnt >0)
 						 })//x.emails.forEach (
+						 }//if(selectedYr == x.Year) {
 					})//BIGDATA.forEach(function (x)
 					
 					var arr = strDays.split("|");
@@ -189,9 +203,11 @@ function buildSummaryData () {
 					var FileCatCnt = arr.length;
 					 
 					 var datarow = { "Error_Msgs" : d,
+									 "Year" : selectedYr,
 									"Tot_Failures" : parseInt(tot_recs),
 									"Date" : strDays,
 									"tot_Days" : parseInt(dayCnt)-1,
+									//"tot_Days" : parseInt(dayCnt),
 									"tot_emails" : parseInt(tot_emails),
 									"File_Cnt" : parseInt(FileCnt)-1,
 									"FileLayouts": fileLayouts,
@@ -207,13 +223,16 @@ function buildSummaryData () {
 	
 	var datarow = {
 						"Tot_Records" :  Summ_Recs,
+						"Year" : selectedYr,
 						"Tot_Inserts" : Summ_New,
 						"Tot_Updates" : Summ_Upd,
 						"Tot_Failures" : Summ_Err,
 						"Tot_Duration_Secs" : d3.round(Summ_Load_sec,2),
 						"Tot_Duration_Hrs" : d3.round(Summ_Load_hr,2),
-						"Tot_days" : Summ_days-1, // count of total days
-						"Tot_Err_days" :Summ_days_err-1, // count of days when errors were found
+						//"Tot_days" : Summ_days-1, // count of total days
+						"Tot_days" : Summ_days, // count of total days
+						//"Tot_Err_days" :Summ_days_err-1, // count of days when errors were found
+						"Tot_Err_days" :Summ_days_err, // count of days when errors were found
 						"Files" : fileLayout, // LIST OF ALL UNIQUE FILE LAYOUTS
 						"File_Layouts" : fileLayout.length, // COUNT OF ALL UNIQUE FILE LAYOUTS
 						"Errors" : errMsgs, // TREE OF ALL UNIQUE ERROR TYPES
@@ -261,8 +280,8 @@ function buildSummaryData () {
 	//console.log("BarChartData");
 	//console.log(BarChartData);
 	
-	console.log("SummaryData");
-	console.log(SummaryData);
+	//console.log("SummaryData");
+	//console.log(SummaryData);
 	LineChartData();
 	
 }
