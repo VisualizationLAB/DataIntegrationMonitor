@@ -5,13 +5,16 @@ function LineChartData(){
 lineData = [];
 
 DateArr = d3.nest()
+			//.key(function(d) { if( d.Day ! = "undefined") {var strDate = d.Day; console.log(strDate); if(strDate.indexOf(selectedYr) != -1) return d.day; }})
+			//.key(function(d) { if(d.day.substring(0,4) == selectedYr) return d.day; })
 			.key(function(d) { return d.day; })
 			.rollup(function(d) {return 0;})
 			.map(allDays);
-			
+//console.log("DateArr");
+//console.log(DateArr);
 DateArrCumm = d3.nest()
 			.key(function(d) { return d.day; })
-			.rollup(function(d) {return 0;})
+			.rollup(function(d) { return 0;})
 			.map(allDays);
 
 
@@ -30,15 +33,22 @@ for(var y in DateArr) {
 		}
 	DateArrCumm[y] = finalCnt;
 	var format = d3.time.format("%Y-%m-%d");
+	var formatYr = d3.time.format("%Y");
 	var strVal = document.getElementById(select_1).textContent;
+	var strDate = "";
+	strDate = format.parse(y);
 	
 	var datarow = { "date" : format.parse(y)
 					,"Cnt" : DateArr[y]
+					,"year" : strDate.getFullYear()
 		}
-	lineData.push(datarow);
+	//console.log(strDate.getFullYear() +"|" + selectedYr)
+	//console.log(strDate.getFullYear() == selectedYr)
+	if(strDate.getFullYear() == selectedYr) lineData.push(datarow);
 	}
 //console.log(DateArr);
 //console.log(DateArrCumm);
+//console.log("lineData");
 //console.log(lineData);
 
 d3.selectAll(".lineChart").remove();
@@ -87,8 +97,11 @@ d3.select("#DivlineChart1")
 	.append("tr")
 	.append("td")
 	.attr("align", "center")
-	.text("ANNUAL TREND BAR CHART FOR " + document.getElementById(select_1).textContent)
-	.attr("style", "color:steelblue;font-size:12px;align:center;font-weight:bold;")
+	.html(function() {
+    return "<span style='color:grey;font-size:11px;'>Annual Trend Bar Chart for </span>" + "<strong style = 'color:steelblue;font-weight:bold;font-size:11px;'>"+document.getElementById(select_1).textContent+"</strong> <span style='color:red;font-size:11px;'>" + selectedYr + "  </span><span style='color:steelblue;font-size:10px;'>  "+strFilter+"</span>";
+		})
+	//.text("ANNUAL TREND BAR CHART FOR " + document.getElementById(select_1).textContent + ":" + selectedYr)
+	//.attr("style", "color:steelblue;font-size:12px;align:center;font-weight:bold;")
 	
 var svg = d3.select(".TrendChart")
 	.append("tr")
