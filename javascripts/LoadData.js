@@ -2,7 +2,8 @@
 
 function loadData () {
 
- queue()
+if(document.URL.indexOf("Data.html") >0) ProgressBar();
+queue()
 	.defer(d3.csv, "Calendar.csv")
 	.await(ready);
 }
@@ -27,27 +28,29 @@ var objData = [];
 
 
 function ready(error, dataCsv) {
-console.log("dataCsv");
-console.log(dataCsv);	
+//console.log("dataCsv");
+//console.log(dataCsv);	
 dataOriginal = dataCsv;
 
 dataOriginal.forEach(function(d){ 
 		if (!(d.Date == "")) { 
 		
-		arrDates.push(d.Date);
-		arrFail.push(parseInt(d.Tot_Failures));
-		arrVol.push(parseInt(d.Tot_Records));
-		arrNew.push(parseInt(d.Tot_Inserts));
-		arrUpd.push(parseInt(d.Tot_Updates));
+		//arrDates.push(d.Date);
+		arrFail.push(parseInt(d.Tot_Failures)); // drives legend
+		arrVol.push(parseInt(d.Tot_Records));// drives legend
+		arrNew.push(parseInt(d.Tot_Inserts));// drives legend
+		arrUpd.push(parseInt(d.Tot_Updates));// drives legend
 		arrDurHrs.push(d3.round(Number(d.Tot_Duration_Hrs),2));
-		arrUpd.push(parseInt(d.Tot_Updates));
-		arrEmails.push(parseInt(d.tot_emails));
-		arrUniqueEmails.push(parseInt(d.tot_unique_emails));
-		arrEmailStr.push(d.EmailStr);
+		
+		//arrUpd.push(parseInt(d.Tot_Updates));
+		//arrEmails.push(parseInt(d.tot_emails));
+		arrUniqueEmails.push(parseInt(d.tot_unique_emails));// drives legend
+		//arrEmailStr.push(d.EmailStr);
 		
 		if (d.EmailStr != "" && typeof(d.EmailStr) != "undefined" ) {
 			var strFilString = d.EmailStr;
 			var strFile = "";
+			var strFileCat = "";
 			strCurrFile = strFilString.split(":");
 			var strFileErr = "";
 			var FileErr = "";
@@ -61,8 +64,15 @@ dataOriginal.forEach(function(d){
 				
 				if (fileLayout[0] !="") 
 				{
-					if (strFile.indexOf(fileLayout[0]) == -1)  strFile = strFile + fileLayout[0] + "|";
-					
+					var strFileTime = fileLayout[0];
+					//console.log(strFileTime);
+					//console.log(strFileTime.length);
+					//console.log(strFileTime.substring(0, strFileTime.length - 6));
+					//if (strFile.indexOf(fileLayout[0]) == -1)  strFile = strFile + fileLayout[0] + "|";
+					if (strFile.indexOf(strFileTime.substring(0, strFileTime.length - 6)) == -1)  strFile = strFile + strFileTime.substring(0, strFileTime.length - 6) + "|";
+					var currFilCat = strFileTime.substring(0, strFileTime.length - 6);
+					currFilCat = getCatDesc(currFilCat.substring(0,3));
+					if (strFileCat.indexOf(currFilCat) == -1)  strFileCat = strFileCat + currFilCat + "|";
 				var EmailContent = fileLayout[1].split("~");
 				var ErrMsgStr = EmailContent[EmailContent.length-1];
 				var ErrTree = [];
@@ -100,7 +110,10 @@ dataOriginal.forEach(function(d){
 				var ErrCnt = parseInt(newArr.length-1);
 				
 				var datarow  = {
-						"File_Layouts" : fileLayout[0],
+						//"File_Layouts" : fileLayout[0],
+						"File_Layouts" : strFileTime.substring(0, strFileTime.length - 6), 
+						"File_Cat" : currFilCat,
+						"TimeStamp" : strFileTime.substring(strFileTime.length - 6, strFileTime.length),
 						"Tot_Records" :  parseInt(EmailContent[2]),
 						"Tot_Inserts" : parseInt(EmailContent[1]),
 						"Tot_Updates" : parseInt(EmailContent[0]),
@@ -122,6 +135,9 @@ dataOriginal.forEach(function(d){
 			
 			var newArr = strFileErr.split("|");
 			var ErrCnt = parseInt(newArr.length-1); // keeps track of unique Error Types on All File Layouts in all emails in one day
+			
+			var newArr = strFileCat.split("|");
+			var FileCatCnt = parseInt(newArr.length-1); // keeps track of unique Error Types on All File Layouts in all emails in one day
 		} // if (d.EmailStr != "" && typeof(d.EmailStr) != "undefined" ) 
 		else 
 		{
@@ -129,13 +145,14 @@ dataOriginal.forEach(function(d){
 			var ErrCnt = 0;
 		}// Else - if (d.EmailStr != "" && typeof(d.EmailStr) != "undefined" ) 
 		
-		arrFileT.push(parseInt(FileCnt));
-		arrFileLayout.push(strFile);
-		arrErrMsgs.push(FileErr);
-		arrErrT.push(parseInt(ErrCnt));
+		arrFileT.push(parseInt(FileCnt)); // drives legend
+		//arrFileLayout.push(strFile);
+		//arrErrMsgs.push(FileErr);
+		arrErrT.push(parseInt(ErrCnt));// drives legend
 		
 		var datarow = {
 						"Date" : d.Date,
+						"Year" : d.Date.substring(0,4),
 						"Tot_Records" :  parseInt(d.Tot_Records),
 						"Tot_Inserts" : parseInt(d.Tot_Inserts),
 						"Tot_Updates" : parseInt(d.Tot_Updates),
@@ -144,6 +161,8 @@ dataOriginal.forEach(function(d){
 						"Tot_Duration_Hrs" : d3.round(Number(d.Tot_Duration_Hrs),2),
 						
 						"File_Layouts" : strFile, // Contains all unique File Layout string delimited by "|" 
+						"File_Cat" : strFileCat,
+						"File_CatCnt" : FileCatCnt,
 						//"Error_Msgs" : FileErr, // Concatenated string of All error messages along with Count for each Day - may be contain non unique error types
 						"Error_Msgs" : strFileErr, // Concatenated string of All unique error messages for each Day
 						"File_Cnt" : parseInt(FileCnt), // Count of Unique File Layouts in one day
@@ -158,17 +177,38 @@ dataOriginal.forEach(function(d){
 console.log("BIGDATA");
 console.log(BIGDATA);
 
-
+//alert(document.URL.indexOf("Calendar.html") >0);
+if(document.URL.indexOf("Calendar.html") >0){
 drawCalender(select_1, "0");
 buildSummaryData ();
 buildFileBarChart();
+var dataKey = d3.entries(dataBIG)
+dataKey.sort(function(a, b){ return d3.ascending(a.key, b.key); });
+var d = new Date(dataKey[dataKey.length-1].key);
+d.setDate(d.getDate() +1); // adding one day- fix issue
 
-var d = new Date();
+var scrollDate = new Date(dataKey[dataKey.length-1].key);
+scrollDate.setDate(scrollDate.getDate() - 365);
+//console.log("scrollDate");
+//console.log(scrollDate);
+scrollDate = buildDataview (scrollDate); // adding one day- fix issue
+
+
 selectedDate = buildDataview (d, "");
 var selectedDateD = buildDisplayDate (selectedDate);
 selectedDateLast = selectedDate;
+document.getElementById(selectedDate).className.baseVal = document.getElementById(selectedDate).className.baseVal + " active";
 document.getElementById(selectedDate).focus();
+
+//window.scroll(0,findPos(document.getElementById(selectedDate))); DIDNOT WORK
+location.href = "#";
+location.href = "#"+scrollDate;
 
 buildSelectData(selectedDate, "", "");
 buildFileBarSelectedDataChart();
+}//if(document.URL.indexOf("Calendar.html") >0)
+
+if(document.URL.indexOf("Data.html") >0){
+exportAllDataload ();
+}//if(document.URL.indexOf("Data.html") >0)
 }
