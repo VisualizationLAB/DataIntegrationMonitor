@@ -852,8 +852,8 @@ switch(screen.availWidth)
 	case 1280: // Monitor
 		var CalendarTransformY = 90;
 		break;
-	case 1280: // Projector
-		var CalendarTransformY = 90;
+	case 1152: // Projector
+		var CalendarTransformY = 80;
 		break;
 }	
 
