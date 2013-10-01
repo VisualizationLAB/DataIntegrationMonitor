@@ -834,7 +834,7 @@ switch(screen.availWidth)
 		var verticalCalendarOffset = 70;
 		break;
 	case 1152: // Projector
-		var verticalCalendarOffset = 40;
+		var verticalCalendarOffset = 80;
 		break;
 }
 
@@ -867,7 +867,7 @@ switch(screen.availWidth)
 		var CalendarTransformY = 90;
 		break;
 	case 1152: // Projector
-		var CalendarTransformY = 40;
+		var CalendarTransformY = 50;
 		break;
 }	
 
