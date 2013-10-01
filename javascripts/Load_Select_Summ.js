@@ -815,7 +815,7 @@ console.log("mainTableWidth : " + mainTableWidth)
 
 
 //var verticalCalendarOffset = heightCalendar * .1;
-if (screen.availWidth > 1280) { 
+/*if (screen.availWidth > 1280) { 
 //console.log("here");
 	var verticalCalendarOffset = 20;
 }
@@ -823,7 +823,21 @@ else
 {
 	//console.log("here2");
 	var verticalCalendarOffset = 70;
+}*/
+
+switch(screen.availWidth)
+{
+	case 1366: // Laptop
+		var verticalCalendarOffset = 20;
+		break;
+	case 1280: // Monitor
+		var verticalCalendarOffset = 70;
+		break;
+	case 1152: // Projector
+		var verticalCalendarOffset = 40;
+		break;
 }
+
 console.log(screen.availWidth);
 console.log(screen.availHeight);
 
@@ -853,7 +867,7 @@ switch(screen.availWidth)
 		var CalendarTransformY = 90;
 		break;
 	case 1152: // Projector
-		var CalendarTransformY = 80;
+		var CalendarTransformY = 40;
 		break;
 }	
 
