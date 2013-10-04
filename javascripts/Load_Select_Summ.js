@@ -29,8 +29,8 @@ var objData = [];
 
 
 function ready(error, dataCsv) {
-//console.log("dataCsv");
-//console.log(dataCsv);	
+console.log("dataCsv");
+console.log(dataCsv);	
 dataOriginal = dataCsv;
 
 dataOriginal.forEach(function(d){ 
@@ -47,10 +47,13 @@ dataOriginal.forEach(function(d){
 		//arrEmails.push(parseInt(d.tot_emails));
 		arrUniqueEmails.push(parseInt(d.tot_unique_emails));// drives legend
 		//arrEmailStr.push(d.EmailStr);
+		var currDate = d.Date;
 		
 		if (d.EmailStr != "" && typeof(d.EmailStr) != "undefined" ) {
 			var strFilString = d.EmailStr;
 			var strFile = "";
+			var strFileTIME = "";
+			
 			var strFileCat = "";
 			strCurrFile = strFilString.split(":");
 			var strFileErr = "";
@@ -69,8 +72,9 @@ dataOriginal.forEach(function(d){
 					//console.log(strFileTime);
 					//console.log(strFileTime.length);
 					//console.log(strFileTime.substring(0, strFileTime.length - 6));
-					//if (strFile.indexOf(fileLayout[0]) == -1)  strFile = strFile + fileLayout[0] + "|";
+					if (strFileTIME.indexOf(currDate +"-"+ strFileTime) == -1)  strFileTIME = strFileTIME + currDate +"-"+ strFileTime + "|";
 					if (strFile.indexOf(strFileTime.substring(0, strFileTime.length - 6)) == -1)  strFile = strFile + strFileTime.substring(0, strFileTime.length - 6) + "|";
+										
 					var currFilCat = strFileTime.substring(0, strFileTime.length - 6);
 					currFilCat = getCatDesc(currFilCat.substring(0,3));
 					if (strFileCat.indexOf(currFilCat) == -1)  strFileCat = strFileCat + currFilCat + "|";
@@ -139,6 +143,10 @@ dataOriginal.forEach(function(d){
 			
 			var newArr = strFileCat.split("|");
 			var FileCatCnt = parseInt(newArr.length-1); // keeps track of unique Error Types on All File Layouts in all emails in one day
+			
+			var newArr = strFileTIME.split("|");
+			var UniqueLoads = parseInt(newArr.length-1); // keeps track of unique Data Loads on All File Layouts in all emails in one day
+			
 		} // if (d.EmailStr != "" && typeof(d.EmailStr) != "undefined" ) 
 		else 
 		{
@@ -150,6 +158,13 @@ dataOriginal.forEach(function(d){
 		//arrFileLayout.push(strFile);
 		//arrErrMsgs.push(FileErr);
 		arrErrT.push(parseInt(ErrCnt));// drives legend
+		
+		var errMsgs = "";
+		
+		if(FileCnt != parseInt(UniqueLoads)) errMsgs = "MultipleLoadsPerFileLayout";
+		var errMsgsDups = "";
+		if(FileCnt == parseInt(UniqueLoads) && FileCnt != EmailTree.length ) errMsgsDups = "DuplicateEmailsPerFileLayout";
+		
 		
 		var datarow = {
 						"Date" : d.Date,
@@ -169,8 +184,10 @@ dataOriginal.forEach(function(d){
 						"File_Cnt" : parseInt(FileCnt), // Count of Unique File Layouts in one day
 						"Err_Cnt" : parseInt(ErrCnt), // Count of Unique Error Types on All File Layouts in one day
 						//"tot_emails" : parseInt(d.tot_emails), // total emails - THIS WAS VALID WHEN THE FOLDER WITH EMAILS HAD DUPLICATE EMAILS
-						"tot_unique_emails" : parseInt(d.tot_unique_emails),
-						"emails" : EmailTree // Structure of each email
+						//"tot_unique_emails" : parseInt(d.tot_unique_emails),
+						"tot_unique_emails" : parseInt(UniqueLoads),
+						"emails" : EmailTree, // Structure of each email,
+						"qualityErrors" : errMsgs + " " + errMsgsDups
 						};
 		BIGDATA.push(datarow);
 		}// only when date is not null (dataOriginal loop)
@@ -508,6 +525,8 @@ function buildSummaryData () {
 	var strFile = "";
 	var strFileErr = "";
 	var strFileErrALL = "";
+	var strQualityError = "";
+	
 	SummaryData = [];
 	var errMsgs = [];
 	//var errMsgsALL_nonunique= [];
@@ -526,6 +545,8 @@ function buildSummaryData () {
 		if (! isNaN(d.Tot_Duration_Hrs)) Summ_Load_hr = Summ_Load_hr + d3.round(Number(d.Tot_Duration_Hrs),2);
 		if (! isNaN(d.Tot_Duration_Secs)) Summ_Load_sec = Summ_Load_sec + d3.round(Number(d.Tot_Duration_Secs),2);
 		if (! isNaN(d.tot_unique_emails)) Summ_Email = Summ_Email + parseInt(d.tot_unique_emails);
+		
+		strQualityError = strQualityError + d.qualityErrors +"|";
 		
 		Summ_days  = Summ_days +1;
 		if (d.Tot_Failures > 0) Summ_days_err = Summ_days_err +1;
@@ -713,6 +734,20 @@ function buildSummaryData () {
 		}//if (typeof(strFileErr) == "string") {
 	// END OF ERROR TYPE PROCESSING
 	
+	//console.log("strQualityError");
+	//console.log(strQualityError);
+	var arr = strQualityError.split("|"); 
+	//console.log(arr);
+	var daysMultiLoadsPerFile = 0;
+	var daysDuplicateLoadEmails = 0;
+	arr.forEach (function (x) { 
+								var arrN = x.split(" ");
+								//if (x.indexOf("MultipleLoadsPerFileLayout") > 0) daysMultiLoadsPerFile = daysMultiLoadsPerFile +1;
+								if (arrN[0] == "MultipleLoadsPerFileLayout") daysMultiLoadsPerFile = daysMultiLoadsPerFile +1;	
+								if (arrN[1] == "DuplicateEmailsPerFileLayout") daysDuplicateLoadEmails = daysDuplicateLoadEmails +1;	
+							})
+	
+	
 	var datarow = {
 						"Tot_Records" :  Summ_Recs,
 						"Year" : selectedYr,
@@ -730,7 +765,9 @@ function buildSummaryData () {
 						"Errors" : errMsgs, // TREE OF ALL UNIQUE ERROR TYPES
 						"ErrorsList" : strFileErr, // LIST OF ALL UNIQUE ERROR TYPES
 						"Error_Msgs" : errMsgs.length, // COUNT OF ALL UNIQUE ERROR TYPES
-						"tot_unique_emails" :  Summ_Email // count of unique emails
+						"tot_unique_emails" :  Summ_Email, // count of unique emails
+						"MultipleLoadsPerFileLayout" : "Days with Multiple Loads Per FileLayout: " + daysMultiLoadsPerFile,
+						"DuplicateEmailsPerFileLayout" : "Days with Duplicate Data Load Emails: " + daysDuplicateLoadEmails
 					}
 					
 	SummaryData.push(datarow);
@@ -738,6 +775,8 @@ function buildSummaryData () {
 	// END OF CREATION OF SUMMARY DATA
 	
 	// START OF DISPLAY OF SUMMARY DATA
+	//console.log("daysMultiLoadsPerFile");
+	//console.log(daysMultiLoadsPerFile);
 	if (SummaryData.length > 0 ) 
 	{
 		SummaryData.forEach (function (d) {
@@ -751,6 +790,8 @@ function buildSummaryData () {
 				d3.select("#SderrDAYS").text(function (x) { return addCommas(d.Tot_Err_days);});
 				d3.select("#SdDAYS").text(function (x) { return addCommas(d.Tot_days);});
 				d3.select("#Sdemail").text(function (x) { return addCommas(d.tot_unique_emails);});
+				d3.select(".MultipleLoadsPerFileLayout").text(function (x) { return addCommas(d.MultipleLoadsPerFileLayout);});
+				d3.select(".DuplicateEmailsPerFileLayout").text(function (x) { return addCommas(d.DuplicateEmailsPerFileLayout);});
 			});
 	}
 	else
@@ -782,7 +823,7 @@ function buildSummaryData () {
 var width = screen.availWidth * 0.8,
 	height = screen.availHeight * .2,
    //cellSize = width * 0.013; // cell size
-   cellSize = 13.5; // cell size
+   cellSize = 12; // cell size
 
 var widthLine = screen.availWidth * .5 ,
 heightLine = height,
@@ -815,7 +856,7 @@ console.log("mainTableWidth : " + mainTableWidth)
 
 
 //var verticalCalendarOffset = heightCalendar * .1;
-/*if (screen.availWidth > 1280) { 
+if (screen.availWidth > 1280) { 
 //console.log("here");
 	var verticalCalendarOffset = 20;
 }
@@ -823,21 +864,7 @@ else
 {
 	//console.log("here2");
 	var verticalCalendarOffset = 70;
-}*/
-
-switch(screen.availWidth)
-{
-	case 1366: // Laptop
-		var verticalCalendarOffset = 20;
-		break;
-	case 1280: // Monitor
-		var verticalCalendarOffset = 70;
-		break;
-	case 1152: // Projector
-		var verticalCalendarOffset = 80;
-		break;
 }
-
 console.log(screen.availWidth);
 console.log(screen.availHeight);
 
@@ -847,7 +874,7 @@ var horizontalCalendarOffset = 150;
 var calendarStart = 2012;
 var calendarEnd = 2015;
 
-var cellpadding = 2;
+var cellpadding = 0;
 var cellpaddingD = 0;
 
 var borderT = 0;
@@ -866,8 +893,8 @@ switch(screen.availWidth)
 	case 1280: // Monitor
 		var CalendarTransformY = 90;
 		break;
-	case 1152: // Projector
-		var CalendarTransformY = 50;
+	case 1280: // Projector
+		var CalendarTransformY = 90;
 		break;
 }	
 
