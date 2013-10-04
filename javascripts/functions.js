@@ -133,7 +133,16 @@ function mouseOver(Ind) {
 			var newSelecteddate = selectedDate;
 			var textVal = document.getElementById(select_1).textContent;
 			strSelectID  = textVal;
+			
+		 if(select_1 == "err" || select_1 == "errT"){
+				TagColor = "rgba(165,0,38,1)";
+			}
+			else {
+					TagColor = "steelblue";
+			}
+			
 			d3.select("#sub_title").text(textVal);
+			d3.select("#sub_title").attr("style" , "color:" +TagColor+";");
 			document.getElementById(selectedDateLast).focus();
 			d3.selectAll("svg").remove();
 			d3.selectAll(".svgContainer").remove();
@@ -482,6 +491,8 @@ labelsContainer.selectAll('text').data(data).enter().append('text')
 // bars
 var barsContainer = chart.append('g')
  .attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
+
+ var originalfill = "";
  
 var rect = barsContainer.selectAll("rect").data(data).enter().append("rect")
   
@@ -493,9 +504,30 @@ var rect = barsContainer.selectAll("rect").data(data).enter().append("rect")
   
   .attr('stroke', 'white')
   //Chartreuse
-  .attr('fill', function () { if(strC == ".DailyDataFile" || strC == ".DailyDataDiv" || strC == ".errDataDaily") {return 'steelblue'} else {return 'steelblue'};})
-  .on('mouseover', function(){ this.style.fill = 'red'; return;} )
- .on('mouseout', function(){if(strC == ".DailyDataFile" || strC == ".DailyDataDiv" || strC == ".errDataDaily") {this.style.fill = 'steelblue'} else {this.style.fill = 'steelblue'};});
+  //.attr('fill', function () { if(strC == ".DailyDataFile" || strC == ".DailyDataDiv" || strC == ".errDataDaily") {return 'steelblue'} else {return 'steelblue'};})
+ .attr('fill', function () { 
+			if(select_1 == "err" || select_1 == "errT") {
+				originalfill = 'rgba(165,0,38,1)'; 
+				return 'rgba(165,0,38,1)';
+			} 
+			else {
+				if(strC == ".errDataDaily" || strC == ".errDataDiv" ) {
+					originalfill = 'rgba(165,0,38,1)'; 
+					return 'rgba(165,0,38,1)';
+				}
+				else {
+					originalfill = 'steelblue'; 
+					return 'steelblue';
+				}
+			}
+		})
+ .on('mouseover', function(){ 
+ 
+	if(originalfill == "steelblue") { this.style.fill = "red"; }
+	else {this.style.fill = "blue"; }
+		//this.style.fill = 'red'; return;
+	} )
+ .on('mouseout', function() {this.style.fill = originalfill; return;});
  
 // bar value labels
 barsContainer.selectAll("text").data(data).enter().append("text")
@@ -609,3 +641,11 @@ function findPos(obj) {
     return [curtop];
     }
 }
+/////
+navigator.sayswho= (function(){
+  var N= navigator.appName, ua= navigator.userAgent, tem;
+  var M= ua.match(/(opera|chrome|safari|firefox|msie)\/?\s*(\.?\d+(\.\d+)*)/i);
+  if(M && (tem= ua.match(/version\/([\.\d]+)/i))!= null) M[2]= tem[1];
+  M= M? [M[1], M[2]]: [N, navigator.appVersion,'-?'];
+  return M;
+ })();
