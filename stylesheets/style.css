@@ -23,7 +23,7 @@ body {
 }
 
 .bar {
-  fill:steelblue;
+  //fill:steelblue;
   //fill: slategray;
   //fill: rgba(179,179,179,0.5);
   //fill: rgba(51, 102, 153,.5)
@@ -134,7 +134,7 @@ body {
 .sub_title{
   //color: rgba(153, 153, 153,.7);
   //color: rgba(51, 102, 153,1);
-  color: steelblue;
+  //color: steelblue;
   stroke: red;
   -webkit-font-smoothing: subpixel-antialiased;
   font-size:12px;
@@ -218,7 +218,7 @@ cell-padding: 10;
 }
 .exportDiv{
 height: 600px;
-width: 800px;
+width: 1200px;
 border: none;
 overflow: auto;
 }
@@ -321,7 +321,7 @@ overflow: auto;
 //position:fixed;
 border: 5px;
 color: green;
-height: 400px;
+height: 300px;
 width: 230px;
 //height: 500px;
 }
@@ -353,8 +353,8 @@ width: 230px;
 }
 
 ::-webkit-scrollbar {
-      width: 3px;
-	  height: 3px;
+      width: 7px;
+	  height: 7px;
 } /* this targets the default scrollbar (compulsory) */
 ::-webkit-scrollbar-track {
       //background-color: #b46868;
