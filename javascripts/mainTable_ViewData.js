@@ -5,7 +5,7 @@ var mainTable = d3.select("body")
 		.attr("id" , "main")
 		.attr("border", borderT)
 		.attr("cellpadding", cellpadding)
-		.attr("width", "1000px")
+		.attr("width", "1200px")
 		//.attr("width", mainTableWidth )
 		//.attr("height", "100%");
 
@@ -72,7 +72,8 @@ BIGDATA.forEach(function (x) {
 												"Failures": parseInt(d.Tot_Failures),
 												"Duration_Hrs": Number(d.Tot_Duration_Hrs),
 												"Errors": parseInt(d.Err_Cnt),
-												"Error_Msgs": strError
+												"Error_Msgs": strError,
+												"QualityErrors" : x.qualityErrors
 												
 												};
 								dataTemp.push(datarow);
@@ -95,15 +96,17 @@ dataTemp.forEach (function(d,i) {
 					"Failures": parseInt(d.Failures),
 					"Duration_Hrs": Number(d.Duration_Hrs),
 					"Errors": parseInt(d.Errors),
-					"Error_Msgs" : d.Error_Msgs
+					"Error_Msgs" : d.Error_Msgs,
+					"QualityErrors" : d.QualityErrors
 					};
 	data.push(datarow);
 });
 data.sort(function(a, b){ return d3.descending(a.Year + a.Date + a.Time, b.Year + b.Date + b.Time); });		
+console.log(data);
 
-var columns = ["SlNo.", "Date", "Year", "Time", "File", "FileCat", "Total", "Inserts","Updates", "Failures", "Duration_Hrs", "Errors", "Error_Msgs"];
-						var columnStyles = ["font-size:9px;color:gray;", "font-size:9px;color:steelblue;", "font-size:9px;color:gray;", "font-size:9px;color:steelblue;","font-size:9px;color:gray;", "font-size:9px;color:gray;", "font-size:9px;color:steelblue;font-weight:bold;", "font-size:9px;color:gray;","font-size:9px;color:gray;", "font-size:9px;color:red;", "font-size:9px;color:gray;", "font-size:9px;color:red;", "font-size:9px;color:red;"];
-						var columnFormat = ["", "", "", "","", "", "1", "1","1", "1", "", "", ""];
+var columns = ["SlNo.", "Date", "Year", "Time", "File", "FileCat", "Total", "Inserts","Updates", "Failures", "Duration_Hrs", "Errors", "Error_Msgs","QualityErrors"];
+						var columnStyles = ["font-size:9px;color:gray;", "font-size:9px;color:steelblue;", "font-size:9px;color:gray;", "font-size:9px;color:steelblue;","font-size:9px;color:gray;", "font-size:9px;color:gray;", "font-size:9px;color:steelblue;font-weight:bold;", "font-size:9px;color:gray;","font-size:9px;color:gray;", "font-size:9px;color:red;", "font-size:9px;color:gray;", "font-size:9px;color:red;", "font-size:9px;color:red;","font-size:9px;color:grey;"];
+						var columnFormat = ["", "", "", "","", "", "1", "1","1", "1", "", "", "",""];
 						//console.log(data);
 						var tblName = "exportDataLoad";
 						d3.selectAll(".exportDiv").remove();
@@ -115,7 +118,7 @@ var columns = ["SlNo.", "Date", "Year", "Time", "File", "FileCat", "Total", "Ins
 							//.append("td")
 							.attr("class", "exportDiv")
 							//.attr("style", "overflow:auto")
-							.attr("width", "500px")
+							.attr("width", "1000px")
 							//.attr("height", "100px")
 							//.attr("style", "display:none;");
 						modularDataTable(columns, data, columnStyles, ".exportDiv", tblName,columnFormat);
