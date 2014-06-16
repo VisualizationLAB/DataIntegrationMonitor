@@ -275,7 +275,10 @@ function getCatDesc (val)
 			break;
 		case "sys":
 			fileClass = "Sysuser"
-			break;															
+			break;
+		case "ref":
+			fileClass = "Referral"
+			break;
 	}
 	return fileClass;
 }
